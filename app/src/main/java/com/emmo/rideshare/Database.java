@@ -20,11 +20,21 @@ public class Database extends SQLiteOpenHelper {
         String strSQL1 = "CREATE TABLE ride("   //Adresse für Start + Ende, eventuell in Teil splitten?
                 +"id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +"idPerson INTEGER NOT NULL,"
-                +"name TEXT NOT NULL"
+                +"startZIP TEXT NOT NULL,"
+                +"startCity TEXT NOT NULL,"
+                +"startStreet TEXT NOT NULL,"
+                +"startNumber TEXT NOT NULL,"
+                +"startName TEXT,"
+                +"endZIP TEXT NOT NULL,"
+                +"endCity TEXT NOT NULL,"
+                +"endStreet TEXT NOT NULL,"
+                +"endNumber TEXT NOT NULL,"
+                +"endName TEXT,"
+                +"notes TEXT"
                 +")";
         db.execSQL(strSQL1);
 
-        String strSQL2 = "CREATE TABLE person("     //Eventuell noch Adresse hinzufügen?
+        String strSQL2 = "CREATE TABLE person("     //Eventuell noch Adresse hinzufügen? + Bild
                 +"id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +"firstname TEXT NOT NULL,"
                 +"lastname TEXT NOT NULL"
