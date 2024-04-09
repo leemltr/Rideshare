@@ -37,6 +37,11 @@ public class Database extends SQLiteOpenHelper {
         String strSQL2 = "CREATE TABLE person("     //Eventuell noch Adresse hinzufügen? + Bild
                 +"id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +"firstname TEXT NOT NULL,"
+                +"lastname TEXT NOT NULL,"
+                +"zip TEXT NOT NULL,"
+                +"city TEXT NOT NULL,"
+                +"street TEXT NOT NULL,"
+                +"streetnumber TEXT NOT NULL,"
                 +"lastname TEXT NOT NULL"
                 +")";
         db.execSQL(strSQL2);
@@ -44,6 +49,24 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+
+    }
+
+    public void createUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String firstname = user.getFirstname().replace("'","((%))");
+        String lastname = user.getLastname().replace("'","((%))");
+        String zip = user.getZip().replace("'","((%))");
+        String city = user.getCity().replace("'","((%))");
+        String street = user.getStreet().replace("'","((%))");
+        String streetnumber = user.getStreetnumber().replace("'","((%))");
+        String strSQL = "INSERT INTO person"
+                +" (firstname, lastname, zip, city, street, streetnumber) VALUES ('"
+                + firstname + "','" + lastname + "','" + zip + "','" + city + "','" + street + "','" + streetnumber + "')";
+        db.execSQL(strSQL);
+    }
+
+    public void createRide(Ride ride) {
 
     }
 
