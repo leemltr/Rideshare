@@ -34,8 +34,10 @@ public class Database extends SQLiteOpenHelper {
                 +")";
         db.execSQL(strSQL1);
 
-        String strSQL2 = "CREATE TABLE person("     //Eventuell noch Adresse hinzufügen? + Bild
+        String strSQL2 = "CREATE TABLE person("     //Eventuell noch Bild hinzufügen?
                 +"id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                +"email TEXT NOT NULL,"
+                +"password TEXT NOT NULL,"
                 +"firstname TEXT NOT NULL,"
                 +"lastname TEXT NOT NULL,"
                 +"zip TEXT NOT NULL,"
@@ -54,6 +56,8 @@ public class Database extends SQLiteOpenHelper {
 
     public void createUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
+        String email = user.getEmail().replace("'","((%))");
+        String password = user.getPassword().replace("'","((%))");
         String firstname = user.getFirstname().replace("'","((%))");
         String lastname = user.getLastname().replace("'","((%))");
         String zip = user.getZip().replace("'","((%))");
@@ -61,8 +65,8 @@ public class Database extends SQLiteOpenHelper {
         String street = user.getStreet().replace("'","((%))");
         String streetnumber = user.getStreetnumber().replace("'","((%))");
         String strSQL = "INSERT INTO person"
-                +" (firstname, lastname, zip, city, street, streetnumber) VALUES ('"
-                + firstname + "','" + lastname + "','" + zip + "','" + city + "','" + street + "','" + streetnumber + "')";
+                +" (email, password, firstname, lastname, zip, city, street, streetnumber) VALUES ('"
+                + email + "','" + password + "','" + firstname + "','" + lastname + "','" + zip + "','" + city + "','" + street + "','" + streetnumber + "')";
         db.execSQL(strSQL);
     }
 
