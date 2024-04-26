@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 public class Database extends SQLiteOpenHelper {
     private static final String DATABASE_NAME="Rideshare.db";
     private static final int DATABASE_VERSION=1;
@@ -54,23 +52,23 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public void createUser(User user){
+    public void createUser(NewUser newUser){
         SQLiteDatabase db = this.getWritableDatabase();
-        String email = user.getEmail().replace("'","((%))");
-        String password = user.getPassword().replace("'","((%))");
-        String firstname = user.getFirstname().replace("'","((%))");
-        String lastname = user.getLastname().replace("'","((%))");
-        String zip = user.getZip().replace("'","((%))");
-        String city = user.getCity().replace("'","((%))");
-        String street = user.getStreet().replace("'","((%))");
-        String streetnumber = user.getStreetnumber().replace("'","((%))");
+        String email = newUser.getEmail().replace("'","((%))");
+        String password = newUser.getPassword().replace("'","((%))");
+        String firstname = newUser.getFirstname().replace("'","((%))");
+        String lastname = newUser.getLastname().replace("'","((%))");
+        String zip = newUser.getZip().replace("'","((%))");
+        String city = newUser.getCity().replace("'","((%))");
+        String street = newUser.getStreet().replace("'","((%))");
+        String streetnumber = newUser.getStreetnumber().replace("'","((%))");
         String strSQL = "INSERT INTO person"
                 +" (email, password, firstname, lastname, zip, city, street, streetnumber) VALUES ('"
                 + email + "','" + password + "','" + firstname + "','" + lastname + "','" + zip + "','" + city + "','" + street + "','" + streetnumber + "')";
         db.execSQL(strSQL);
     }
 
-    public void createRide(Ride ride) {
+    public void createRide(NewRide newRide) {
 
     }
 
