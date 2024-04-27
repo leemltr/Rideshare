@@ -8,9 +8,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -235,6 +238,7 @@ public class DatabaseGlobal {
         String rideId = myRef.push().getKey();
 
         Map<String, Object> rideMap = new HashMap<>();
+        rideMap.put("id", rideId);
         rideMap.put("idPerson", newRide.getIdPerson());
         rideMap.put("startZip", newRide.getStartZip());
         rideMap.put("startCity", newRide.getStartCity());
@@ -263,5 +267,144 @@ public class DatabaseGlobal {
                     }
                 });
     }
+
+    public interface RideCallback {
+        void onRideLoaded(Ride ride);
+        void onRideNotFound();
+        void onFailure(String message);
+    }
+
+    public interface RidesByUserCallback {
+        void onRidesLoaded(List<Ride> rides);
+        void onFailure(String message);
+    }
+
+
+    public void readRideById(String rideId, final RideCallback callback) {
+        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
+
+        ridesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Ride ride = dataSnapshot.getValue(Ride.class);
+                    callback.onRideLoaded(ride);
+                } else {
+                    callback.onRideNotFound();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Fehler beim Lesen der Daten
+                callback.onFailure(databaseError.getMessage());
+            }
+        });
+    }
+
+    public void readRidesByUserId(int userId, final RidesByUserCallback callback) {
+        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride");
+
+        Query query = ridesRef.orderByChild("idPerson").equalTo(userId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Ride> rides = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ride ride = snapshot.getValue(Ride.class);
+                    rides.add(ride);
+                }
+                callback.onRidesLoaded(rides);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Fehler beim Lesen der Daten
+                callback.onFailure(databaseError.getMessage());
+            }
+        });
+    }
+
+    //Sinnvoll NewRide statt Ride zu benutzen?
+    public void updateRideInDatabase(String rideId, NewRide updatedRide) {
+        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
+
+        Map<String, Object> updatedRideMap = new HashMap<>();
+        updatedRideMap.put("startZip", updatedRide.getStartZip());
+        updatedRideMap.put("startCity", updatedRide.getStartCity());
+        updatedRideMap.put("startStreet", updatedRide.getStartStreet());
+        updatedRideMap.put("startNumber", updatedRide.getStartNumber());
+        updatedRideMap.put("startName", updatedRide.getStartName());
+        updatedRideMap.put("endZip", updatedRide.getEndZip());
+        updatedRideMap.put("endCity", updatedRide.getEndCity());
+        updatedRideMap.put("endStreet", updatedRide.getEndStreet());
+        updatedRideMap.put("endNumber", updatedRide.getEndNumber());
+        updatedRideMap.put("endName", updatedRide.getEndName());
+        updatedRideMap.put("notes", updatedRide.getNotes());
+
+        ridesRef.updateChildren(updatedRideMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Erfolgreich aktualisiert
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Fehler beim Aktualisieren
+                    }
+                });
+    }
+
+    public void deleteRideFromDatabase(String rideId) {
+        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
+
+        ridesRef.removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Erfolgreich gelöscht
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Fehler beim Löschen
+                    }
+                });
+    }
+
+    public void deleteRidesByUserIdFromDatabase(int userId) {
+        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride");
+
+        Query query = ridesRef.orderByChild("idPerson").equalTo(userId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    snapshot.getRef().removeValue()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Erfolgreich gelöscht
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Fehler beim Löschen
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Fehler beim Lesen der Daten
+            }
+        });
+    }
+
 
 }
