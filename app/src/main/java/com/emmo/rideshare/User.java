@@ -6,6 +6,7 @@ public class User {
     private String password;
     private String firstname;
     private String lastname;
+    private String hochschule;
     private String zip;
     private String city;
     private String street;
@@ -49,6 +50,14 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getHochschule() {
+        return hochschule;
+    }
+
+    public void setHochschule(String hochschule) {
+        this.hochschule = hochschule;
     }
 
     public String getZip() {
