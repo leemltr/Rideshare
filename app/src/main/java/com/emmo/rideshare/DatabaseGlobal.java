@@ -325,6 +325,33 @@ public class DatabaseGlobal {
         });
     }
 
+    public CompletableFuture<Ride> readRideFromDatabase(String rideId) {
+        CompletableFuture<Ride> future = new CompletableFuture<>();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ridesRef = database.getReference("ride");
+
+        ridesRef.child(rideId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Ride ride = dataSnapshot.getValue(Ride.class);
+                if (ride != null) {
+                    future.complete(ride);
+                } else {
+                    future.completeExceptionally(new RuntimeException("Ride mit dieser ID nicht gefunden"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
+            }
+        });
+
+        return future;
+    }
+
+
     //Sinnvoll NewRide statt Ride zu benutzen?
     public void updateRideInDatabase(String rideId, NewRide updatedRide) {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
