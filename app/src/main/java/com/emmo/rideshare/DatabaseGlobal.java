@@ -6,8 +6,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -49,17 +47,11 @@ public class DatabaseGlobal {
 
         assert userId != null;
         myRef.child(userId).setValue(userMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Erfolgreich angelegt
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    // Erfolgreich angelegt
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Fehler beim Anlegen
-                    }
+                .addOnFailureListener(e -> {
+                    // Fehler beim Anlegen
                 });
     }
 
@@ -187,7 +179,7 @@ public class DatabaseGlobal {
                 if (dataSnapshot.exists()) {
                     // Alte Benutzerdaten vorhanden
                     User oldUser = dataSnapshot.getValue(User.class);
-
+                    assert oldUser != null;
                     // Aktualisiere nur die Felder, die in der aktualisierten Benutzerinstanz vorhanden sind
                     if (user.getEmail() != null) {
                         oldUser.setEmail(user.getEmail());
@@ -227,20 +219,15 @@ public class DatabaseGlobal {
 
                     // Schreibe die aktualisierten Benutzerdaten zurück in die Datenbank
                     usersRef.child(userIdString).setValue(oldUser)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Erfolgreich aktualisiert
-                                }
+                            .addOnSuccessListener(aVoid -> {
+                                // Erfolgreich aktualisiert
                             })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Fehler beim Aktualisieren
-                                }
+                            .addOnFailureListener(e -> {
+                                // Fehler beim Aktualisieren
                             });
                 } else {
                     // Der Benutzer mit der angegebenen userId existiert nicht
+                    System.out.println("Dieser User existiert nicht");
                 }
             }
 
@@ -300,17 +287,11 @@ public class DatabaseGlobal {
 
         assert rideId != null;
         myRef.child(rideId).setValue(rideMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Erfolgreich angelegt
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    // Erfolgreich angelegt
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Fehler beim Anlegen
-                    }
+                .addOnFailureListener(e -> {
+                    // Fehler beim Anlegen
                 });
     }
 
@@ -409,6 +390,7 @@ public class DatabaseGlobal {
                 if (dataSnapshot.exists()) {
                     // Alte Werte vorhanden
                     Ride oldRide = dataSnapshot.getValue(Ride.class);
+                    assert oldRide != null;
 
                     // Aktualisiere nur die Felder, die in updatedRide vorhanden sind
                     if (updatedRide.getStartZip() != null) {
@@ -447,20 +429,15 @@ public class DatabaseGlobal {
 
                     // Schreibe die aktualisierten Werte zurück in die Datenbank
                     ridesRef.setValue(oldRide)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Erfolgreich aktualisiert
-                                }
+                            .addOnSuccessListener(aVoid -> {
+                                // Erfolgreich aktualisiert
                             })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Fehler beim Aktualisieren
-                                }
+                            .addOnFailureListener(e -> {
+                                // Fehler beim Aktualisieren
                             });
                 } else {
                     // Das Ride mit der angegebenen rideId existiert nicht
+                    System.out.println("Diese Fahrt existiert nicht");
                 }
             }
 
@@ -476,17 +453,11 @@ public class DatabaseGlobal {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
 
         ridesRef.removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Erfolgreich gelöscht
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    // Erfolgreich gelöscht
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Fehler beim Löschen
-                    }
+                .addOnFailureListener(e -> {
+                    // Fehler beim Löschen
                 });
     }
 
@@ -499,17 +470,11 @@ public class DatabaseGlobal {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     snapshot.getRef().removeValue()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Erfolgreich gelöscht
-                                }
+                            .addOnSuccessListener(aVoid -> {
+                                // Erfolgreich gelöscht
                             })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Fehler beim Löschen
-                                }
+                            .addOnFailureListener(e -> {
+                                // Fehler beim Löschen
                             });
                 }
             }
