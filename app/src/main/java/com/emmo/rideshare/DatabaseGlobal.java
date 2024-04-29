@@ -183,7 +183,7 @@ public class DatabaseGlobal {
         // Lese die alten Benutzerdaten aus der Datenbank
         usersRef.child(userIdString).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Alte Benutzerdaten vorhanden
                     User oldUser = dataSnapshot.getValue(User.class);
@@ -245,7 +245,7 @@ public class DatabaseGlobal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Fehler beim Lesen der Daten
             }
         });
@@ -405,10 +405,10 @@ public class DatabaseGlobal {
         // Lese die alten Werte aus der Datenbank
         ridesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Alte Werte vorhanden
-                    NewRide oldRide = dataSnapshot.getValue(NewRide.class);
+                    Ride oldRide = dataSnapshot.getValue(Ride.class);
 
                     // Aktualisiere nur die Felder, die in updatedRide vorhanden sind
                     if (updatedRide.getStartZip() != null) {
@@ -465,7 +465,7 @@ public class DatabaseGlobal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Fehler beim Lesen der Daten
             }
         });
@@ -496,7 +496,7 @@ public class DatabaseGlobal {
         Query query = ridesRef.orderByChild("idPerson").equalTo(userId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     snapshot.getRef().removeValue()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -515,7 +515,7 @@ public class DatabaseGlobal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Fehler beim Lesen der Daten
             }
         });
