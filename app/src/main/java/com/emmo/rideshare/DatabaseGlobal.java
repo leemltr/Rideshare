@@ -175,38 +175,82 @@ public class DatabaseGlobal {
         return future;
     }
 
-    public void updateUserInDatabase(User user) {
+    public void updateUserInDatabase(User user){//, String profileImageUrl) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
-        String userIdString = String.valueOf(user.getId()); //Muss als String weitergegeben werden
+        String userIdString = String.valueOf(user.getId()); // Muss als String weitergegeben werden
 
-        Map<String, Object> updateUserMap = new HashMap<>();
-        updateUserMap.put("email", user.getEmail());
-        updateUserMap.put("password", user.getPassword());
-        updateUserMap.put("firstname", user.getFirstname());
-        updateUserMap.put("lastname", user.getLastname());
-        updateUserMap.put("hochschule", user.getHochschule());
-        updateUserMap.put("age", user.getAge());
-        updateUserMap.put("zip", user.getZip());
-        updateUserMap.put("city", user.getCity());
-        updateUserMap.put("street", user.getStreet());
-        updateUserMap.put("streetnumber", user.getStreetnumber());
+        // Lese die alten Benutzerdaten aus der Datenbank
+        usersRef.child(userIdString).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Alte Benutzerdaten vorhanden
+                    User oldUser = dataSnapshot.getValue(User.class);
 
-        // Aktualisiere den Benutzer in der Datenbank
-        usersRef.child(userIdString).updateChildren(updateUserMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Erfolgreich aktualisiert
+                    // Aktualisiere nur die Felder, die in der aktualisierten Benutzerinstanz vorhanden sind
+                    if (user.getEmail() != null) {
+                        oldUser.setEmail(user.getEmail());
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Fehler beim Aktualisieren
+                    if (user.getPassword() != null) {
+                        oldUser.setPassword(user.getPassword());
                     }
-                });
+                    if (user.getFirstname() != null) {
+                        oldUser.setFirstname(user.getFirstname());
+                    }
+                    if (user.getLastname() != null) {
+                        oldUser.setLastname(user.getLastname());
+                    }
+                    if (user.getHochschule() != null) {
+                        oldUser.setHochschule(user.getHochschule());
+                    }
+                    if (user.getAge() != null) {
+                        oldUser.setAge(user.getAge());
+                    }
+                    if (user.getZip() != null) {
+                        oldUser.setZip(user.getZip());
+                    }
+                    if (user.getCity() != null) {
+                        oldUser.setCity(user.getCity());
+                    }
+                    if (user.getStreet() != null) {
+                        oldUser.setStreet(user.getStreet());
+                    }
+                    if (user.getStreetnumber() != null) {
+                        oldUser.setStreetnumber(user.getStreetnumber());
+                    }
+
+                    // Aktualisiere die Profilbild-URL, wenn eine neue URL vorhanden ist
+                    //if (profileImageUrl != null) {
+                    //    oldUser.setProfileImageUrl(profileImageUrl);
+                    //}
+
+                    // Schreibe die aktualisierten Benutzerdaten zurück in die Datenbank
+                    usersRef.child(userIdString).setValue(oldUser)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Erfolgreich aktualisiert
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Fehler beim Aktualisieren
+                                }
+                            });
+                } else {
+                    // Der Benutzer mit der angegebenen userId existiert nicht
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Fehler beim Lesen der Daten
+            }
+        });
     }
+
 
     public void deleteUserFromDatabase(String userId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -358,33 +402,75 @@ public class DatabaseGlobal {
     public void updateRideInDatabase(String rideId, NewRide updatedRide) {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
 
-        Map<String, Object> updatedRideMap = new HashMap<>();
-        updatedRideMap.put("startZip", updatedRide.getStartZip());
-        updatedRideMap.put("startCity", updatedRide.getStartCity());
-        updatedRideMap.put("startStreet", updatedRide.getStartStreet());
-        updatedRideMap.put("startNumber", updatedRide.getStartNumber());
-        updatedRideMap.put("startName", updatedRide.getStartName());
-        updatedRideMap.put("endZip", updatedRide.getEndZip());
-        updatedRideMap.put("endCity", updatedRide.getEndCity());
-        updatedRideMap.put("endStreet", updatedRide.getEndStreet());
-        updatedRideMap.put("endNumber", updatedRide.getEndNumber());
-        updatedRideMap.put("endName", updatedRide.getEndName());
-        updatedRideMap.put("notes", updatedRide.getNotes());
+        // Lese die alten Werte aus der Datenbank
+        ridesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Alte Werte vorhanden
+                    NewRide oldRide = dataSnapshot.getValue(NewRide.class);
 
-        ridesRef.updateChildren(updatedRideMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Erfolgreich aktualisiert
+                    // Aktualisiere nur die Felder, die in updatedRide vorhanden sind
+                    if (updatedRide.getStartZip() != null) {
+                        oldRide.setStartZip(updatedRide.getStartZip());
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Fehler beim Aktualisieren
+                    if (updatedRide.getStartCity() != null) {
+                        oldRide.setStartCity(updatedRide.getStartCity());
                     }
-                });
+                    if (updatedRide.getStartStreet() != null) {
+                        oldRide.setStartStreet(updatedRide.getStartStreet());
+                    }
+                    if (updatedRide.getStartNumber() != null) {
+                        oldRide.setStartNumber(updatedRide.getStartNumber());
+                    }
+                    if (updatedRide.getStartName() != null) {
+                        oldRide.setStartName(updatedRide.getStartName());
+                    }
+                    if (updatedRide.getEndZip() != null) {
+                        oldRide.setEndZip(updatedRide.getEndZip());
+                    }
+                    if (updatedRide.getEndCity() != null) {
+                        oldRide.setEndCity(updatedRide.getEndCity());
+                    }
+                    if (updatedRide.getEndStreet() != null) {
+                        oldRide.setEndStreet(updatedRide.getEndStreet());
+                    }
+                    if (updatedRide.getEndNumber() != null) {
+                        oldRide.setEndNumber(updatedRide.getEndNumber());
+                    }
+                    if (updatedRide.getEndName() != null) {
+                        oldRide.setEndName(updatedRide.getEndName());
+                    }
+                    if (updatedRide.getNotes() != null) {
+                        oldRide.setNotes(updatedRide.getNotes());
+                    }
+
+                    // Schreibe die aktualisierten Werte zurück in die Datenbank
+                    ridesRef.setValue(oldRide)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Erfolgreich aktualisiert
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Fehler beim Aktualisieren
+                                }
+                            });
+                } else {
+                    // Das Ride mit der angegebenen rideId existiert nicht
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Fehler beim Lesen der Daten
+            }
+        });
     }
+
 
     public void deleteRideFromDatabase(String rideId) {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
