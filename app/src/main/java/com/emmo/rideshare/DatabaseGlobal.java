@@ -41,6 +41,7 @@ public class DatabaseGlobal {
         userMap.put("firstname", newUser.getFirstname());
         userMap.put("lastname", newUser.getLastname());
         userMap.put("hochschule", newUser.getHochschule());
+        userMap.put("age", newUser.getAge());
         userMap.put("zip", newUser.getZip());
         userMap.put("city", newUser.getCity());
         userMap.put("street", newUser.getStreet());
@@ -185,6 +186,7 @@ public class DatabaseGlobal {
         updateUserMap.put("firstname", user.getFirstname());
         updateUserMap.put("lastname", user.getLastname());
         updateUserMap.put("hochschule", user.getHochschule());
+        updateUserMap.put("age", user.getAge());
         updateUserMap.put("zip", user.getZip());
         updateUserMap.put("city", user.getCity());
         updateUserMap.put("street", user.getStreet());
