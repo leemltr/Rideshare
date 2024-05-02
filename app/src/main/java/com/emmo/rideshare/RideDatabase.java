@@ -1,6 +1,6 @@
 package com.emmo.rideshare;
 
-public class RideActivity {
+public class RideDatabase {
     public void readRide(String id){
         DatabaseGlobal databaseGlobal = new DatabaseGlobal();
         databaseGlobal.readRideFromDatabase(id).thenAccept(ride -> {
