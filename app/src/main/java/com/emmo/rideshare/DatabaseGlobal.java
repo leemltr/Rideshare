@@ -238,6 +238,51 @@ public class DatabaseGlobal {
         });
     }
 
+    public void checkUserCredentials(String email, String password, OnCheckUserListener listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("users");
+
+        // Führe eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
+        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean userExists = false;
+
+                // Iteriere über die gefundenen Benutzer
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+
+                    // Überprüfe, ob das Passwort übereinstimmt
+                    if (user != null && user.getPassword().equals(password)) {
+                        userExists = true;
+                        break;
+                    }
+                }
+
+                // Rückgabe des Ergebnisses über das Listener-Interface
+                if (listener != null) {
+                    listener.onCheckUser(userExists);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Fehler beim Lesen der Daten
+                System.out.println("Fehler beim Lesen der Daten: " + databaseError.getMessage());
+
+                // Rückgabe des Fehlerfalls über das Listener-Interface
+                if (listener != null) {
+                    listener.onCheckUser(false);
+                }
+            }
+        });
+    }
+
+    // Listener-Interface für die Rückgabe des Ergebnisses
+    public interface OnCheckUserListener {
+        void onCheckUser(boolean userExists);
+    }
+
 
     public void deleteUserFromDatabase(String userId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
