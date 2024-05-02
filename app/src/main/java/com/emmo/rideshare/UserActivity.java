@@ -2,6 +2,7 @@ package com.emmo.rideshare;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UserActivity {
     public void readUser(int id){
@@ -38,5 +39,22 @@ public class UserActivity {
             // Gib false zurück, falls ein Fehler auftritt
             return false;
         }
+    }
+
+    public boolean checkUserExists(String email) {
+        DatabaseGlobal database = new DatabaseGlobal();
+        AtomicBoolean userExists = new AtomicBoolean(false);
+
+        // Aufruf der Methode zum Überprüfen des Benutzers
+        database.checkUserExists(email, new DatabaseGlobal.OnUserExistsListener() {
+            @Override
+            public void onUserExists(boolean exists) {
+                // Setze den Wert von userExists entsprechend
+                userExists.set(exists);
+            }
+        });
+
+        // Gib den boolean-Wert zurück
+        return userExists.get();
     }
 }

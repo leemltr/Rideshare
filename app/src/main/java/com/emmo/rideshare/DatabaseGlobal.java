@@ -27,7 +27,7 @@ public class DatabaseGlobal {
     *
      */
 
-    public void writeToDatabaseUser(NewUser newUser) {
+    public void writeToDatabaseUser(NewUser newUser, OnUserSavedListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
         String userId = myRef.push().getKey();
@@ -38,12 +38,24 @@ public class DatabaseGlobal {
         userMap.put("password", newUser.getPassword());
         userMap.put("firstname", newUser.getFirstname());
         userMap.put("lastname", newUser.getLastname());
-        userMap.put("hochschule", newUser.getHochschule());
-        userMap.put("age", newUser.getAge());
-        userMap.put("zip", newUser.getZip());
-        userMap.put("city", newUser.getCity());
-        userMap.put("street", newUser.getStreet());
-        userMap.put("streetnumber", newUser.getStreetnumber());
+        if (newUser.getHochschule() != null) {
+            userMap.put("hochschule", newUser.getHochschule());
+        }
+        if (newUser.getAge() != null) {
+            userMap.put("age", newUser.getAge());
+        }
+        if (newUser.getZip() != null) {
+            userMap.put("zip", newUser.getZip());
+        }
+        if (newUser.getCity() != null) {
+            userMap.put("city", newUser.getCity());
+        }
+        if (newUser.getStreet() != null) {
+            userMap.put("street", newUser.getStreet());
+        }
+        if (newUser.getStreetnumber() != null) {
+            userMap.put("streetnumber", newUser.getStreetnumber());
+        }
 
         assert userId != null;
         myRef.child(userId).setValue(userMap)
@@ -53,23 +65,28 @@ public class DatabaseGlobal {
                 .addOnFailureListener(e -> {
                     // Fehler beim Anlegen
                 });
+
+        listener.onUserSaved();
     }
 
-    public void readUserFromDatabase(String userEmail) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("users"); // Pfad in deiner Datenbankstruktur
+    // Rückruffunktion für die Benachrichtigung über das abgeschlossene Speichern des Benutzers
+    public interface OnUserSavedListener {
+        void onUserSaved();
+    }
+
+    public void checkUserExists(String userEmail, OnUserExistsListener listener) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         // Führe eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
         usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Datenänderungen wurden empfangen
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Iteriere über die gefundenen Benutzer
-                    User user = snapshot.getValue(User.class);
-                    // Hier kannst du mit dem gefundenen Benutzer arbeiten
-                    assert user != null;
-                    System.out.println("Benutzer gefunden: " + user.getId() + " " + user.getFirstname() + " " + user.getLastname());
+                // Überprüfe, ob ein Benutzer mit dieser E-Mail existiert
+                boolean userExists = dataSnapshot.exists();
+
+                // Rückgabe des Ergebnisses über das Listener-Interface
+                if (listener != null) {
+                    listener.onUserExists(userExists);
                 }
             }
 
@@ -77,8 +94,18 @@ public class DatabaseGlobal {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Fehler beim Lesen der Daten
                 System.out.println("Fehler beim Lesen der Daten: " + databaseError.getMessage());
+
+                // Rückgabe des Fehlerfalls über das Listener-Interface
+                if (listener != null) {
+                    listener.onUserExists(false);
+                }
             }
         });
+    }
+
+    // Listener-Interface für die Rückgabe des Ergebnisses
+    public interface OnUserExistsListener {
+        void onUserExists(boolean userExists);
     }
 
     public interface UserIdCallback {

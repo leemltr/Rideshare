@@ -2,7 +2,6 @@ package com.emmo.rideshare;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,38 +34,29 @@ public class LoginActivity extends AppCompatActivity {
         TextView register1 = findViewById(R.id.textView3);
         TextView register2 = findViewById(R.id.textView2);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailText.getText().toString();
-                String password = passwordText.getText().toString();
-                boolean login = checkLogin(email, password);
-                if(login){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Email oder Password ist falsch", Toast.LENGTH_SHORT).show();
-                }
+        save.setOnClickListener(v -> {
+            String email = emailText.getText().toString();
+            String password = passwordText.getText().toString();
+            boolean login = checkLogin(email, password);
+            if(login){
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(LoginActivity.this, "Email oder Password ist falsch", Toast.LENGTH_SHORT).show();
             }
         });
 
-        register1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        register1.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        register2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        register2.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
         });
 
 
