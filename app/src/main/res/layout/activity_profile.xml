@@ -33,7 +33,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/profile_name"
+        android:id="@+id/profile_vname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -41,12 +41,28 @@
         android:layout_marginEnd="16dp"
         android:drawablePadding="10dp"
         android:elevation="3dp"
-        android:hint="Name"
+        android:hint="Vorname"
         android:padding="13dp"
         app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_img" />
+
+    <TextView
+        android:id="@+id/profile_nname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="10dp"
+        android:elevation="3dp"
+        android:hint="Nachname"
+        android:padding="13dp"
+        app:layout_constrainedWidth_percent=".8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_vname" />
 
     <TextView
         android:id="@+id/profile_email"
@@ -62,10 +78,10 @@
         app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_nname" />
 
     <TextView
-        android:id="@+id/profile_standortHS"
+        android:id="@+id/profile_address_str"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -73,12 +89,28 @@
         android:layout_marginEnd="16dp"
         android:drawablePadding="10dp"
         android:elevation="3dp"
-        android:hint="Standort der Hochschule"
+        android:hint="Straße Hausnr."
         android:padding="13dp"
         app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email" />
+
+    <TextView
+        android:id="@+id/profile_address_city"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="10dp"
+        android:elevation="3dp"
+        android:hint="PLZ Stadt"
+        android:padding="13dp"
+        app:layout_constrainedWidth_percent=".8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_address_str" />
 
     <TextView
         android:id="@+id/profile_alter"
@@ -94,7 +126,7 @@
         app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_standortHS" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_address_city" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
