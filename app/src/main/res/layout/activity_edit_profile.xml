@@ -7,10 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".EditProfileActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="true" />
+
     <ImageView
         android:id="@+id/header_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -97,6 +102,38 @@
         app:layout_constraintTop_toBottomOf="@+id/profile_email" />
 
     <EditText
+        android:id="@+id/profile_address_nr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="10dp"
+        android:elevation="3dp"
+        android:hint="Straße Hausnr."
+        android:padding="13dp"
+        app:layout_constrainedWidth_percent=".8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_address_str" />
+
+    <EditText
+        android:id="@+id/profile_address_plz"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="10dp"
+        android:elevation="3dp"
+        android:hint="PLZ"
+        android:padding="13dp"
+        app:layout_constrainedWidth_percent=".8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_address_nr" />
+
+    <EditText
         android:id="@+id/profile_address_city"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -110,23 +147,7 @@
         app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_address_str" />
-
-    <EditText
-        android:id="@+id/profile_alter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="Alter"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_address_city" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_address_plz" />
 
     <Button
         android:id="@+id/update_btn"
@@ -139,7 +160,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_alter"
+        app:layout_constraintTop_toBottomOf="@+id/profile_address_city"
         app:layout_constraintVertical_bias="0.3"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
