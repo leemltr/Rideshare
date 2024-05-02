@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Rideshare</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="vname">Vorname</string>
+    <string name="nname">Nachname</string>
+    <string name="street">Straße</string>
+    <string name="hnr">Hausnummer</string>
+    <string name="zipcode">PLZ</string>
+    <string name="city">stadt</string>
+    <string name="email">Email</string>
+    <string name="pword">Passwort</string>
+    <string name="register">Registrieren</string>
+    <string name="login">Login</string>
+    <string name="update">Speichern</string>
+
 </resources>

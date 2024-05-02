@@ -11,7 +11,7 @@
         android:id="@+id/logo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/cardview_dark_background"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -22,47 +22,47 @@
         app:layout_constraintVertical_bias="0.26999998" />
 
     <EditText
-        android:id="@+id/inputPassword2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="Passwort"
-        android:inputType="textPassword"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/inputEmail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/inputEmail"
-        app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
-
-    <EditText
         android:id="@+id/inputEmail"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="32dp"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="E-Mail"
-        android:inputType="textPersonName"
-        android:paddingLeft="20dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
         android:paddingTop="10dp"
-        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo2" />
 
+    <EditText
+        android:id="@+id/inputPassword2"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/pword"
+        android:inputType="textPassword"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/inputEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/inputEmail"
+        app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
+
     <TextView
         android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:text="Passwort vergessen?"
         android:textColor="@color/common_google_signin_btn_text_light"
@@ -74,10 +74,11 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Login"
+        android:text="@string/login"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/inputPassword2"
         app:layout_constraintStart_toStartOf="@+id/inputPassword2"
         app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
@@ -97,15 +98,18 @@
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kein Konto? " />
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:text="Kein Konto? "
+            android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/register"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registrieren"
+            android:layout_height="48dp"
+            android:text="@string/register"
             android:clickable="true"
+            android:textSize="16sp"
             android:textColor="@color/common_google_signin_btn_text_light"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
