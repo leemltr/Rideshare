@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public boolean checkLogin(String email, String password){
-        UserActivity userActivity = new UserActivity();
-        return userActivity.checkUser(email, password);
+        UserDatabase userDatabase = new UserDatabase();
+        return userDatabase.checkUser(email, password);
     }
 }

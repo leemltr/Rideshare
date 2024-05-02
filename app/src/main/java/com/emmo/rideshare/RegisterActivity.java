@@ -49,8 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(v -> {
             if(passwordTrue){
                 String email = emailText.getText().toString();
-                UserActivity userActivity = new UserActivity();
-                boolean newUser = userActivity.checkUserExists(email);
+                UserDatabase userDatabase = new UserDatabase();
+                boolean newUser = userDatabase.checkUserExists(email);
                 if(newUser) {
                     saveUser();
                 }

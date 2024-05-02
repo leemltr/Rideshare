@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class UserActivity {
+public class UserDatabase {
     public void readUser(int id){
         DatabaseGlobal databaseGlobal = new DatabaseGlobal();
         databaseGlobal.readUserFromDatabase(id).thenAccept(user -> {
@@ -23,13 +23,8 @@ public class UserActivity {
 
         // Verwende die checkUserCredentials-Methode aus DatabaseGlobal
         DatabaseGlobal databaseGlobal = new DatabaseGlobal();
-        databaseGlobal.checkUserCredentials(email, password, new DatabaseGlobal.OnCheckUserListener() {
-            @Override
-            public void onCheckUser(boolean userExists) {
-                // Setze das Ergebnis des Checks im CompletableFuture
-                future.complete(userExists);
-            }
-        });
+        // Setze das Ergebnis des Checks im CompletableFuture
+        databaseGlobal.checkUserCredentials(email, password, future::complete);
 
         try {
             // Warte auf das Ergebnis des CompletableFuture und gib den boolean-Wert zurück
@@ -46,13 +41,8 @@ public class UserActivity {
         AtomicBoolean userExists = new AtomicBoolean(false);
 
         // Aufruf der Methode zum Überprüfen des Benutzers
-        database.checkUserExists(email, new DatabaseGlobal.OnUserExistsListener() {
-            @Override
-            public void onUserExists(boolean exists) {
-                // Setze den Wert von userExists entsprechend
-                userExists.set(exists);
-            }
-        });
+        // Setze den Wert von userExists entsprechend
+        database.checkUserExists(email, userExists::set);
 
         // Gib den boolean-Wert zurück
         return userExists.get();
