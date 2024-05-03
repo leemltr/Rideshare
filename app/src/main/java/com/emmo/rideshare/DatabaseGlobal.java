@@ -355,6 +355,8 @@ public class DatabaseGlobal {
         rideMap.put("endStreet", newRide.getEndStreet());
         rideMap.put("endNumber", newRide.getEndNumber());
         rideMap.put("endName", newRide.getEndName());
+        rideMap.put("date", newRide.getDate());
+        rideMap.put("time", newRide.getTime());
         rideMap.put("notes", newRide.getNotes());
 
         assert rideId != null;
@@ -494,6 +496,12 @@ public class DatabaseGlobal {
                     }
                     if (updatedRide.getEndName() != null) {
                         oldRide.setEndName(updatedRide.getEndName());
+                    }
+                    if (updatedRide.getDate() != null) {
+                        oldRide.setDate(updatedRide.getDate());
+                    }
+                    if (updatedRide.getTime() != null) {
+                        oldRide.setTime(updatedRide.getTime());
                     }
                     if (updatedRide.getNotes() != null) {
                         oldRide.setNotes(updatedRide.getNotes());

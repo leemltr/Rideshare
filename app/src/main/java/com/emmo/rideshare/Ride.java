@@ -13,6 +13,8 @@ public class Ride {
     private String endStreet;
     private String endNumber;
     private String endName;
+    private String date;
+    private String time;
     private String notes;
 
     public int getId() {
@@ -109,6 +111,22 @@ public class Ride {
 
     public void setEndName(String endName) {
         this.endName = endName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getNotes() {
