@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         Button register = findViewById(R.id.btnRegister);
         TextView login1 = findViewById(R.id.textView3);
         TextView login2 = findViewById(R.id.textView2);
+        LinearLayout login = findViewById(R.id.btnLogin);
 
         password1.addTextChangedListener(textWatcher);
         password2.addTextChangedListener(textWatcher);
@@ -55,6 +57,12 @@ public class RegisterActivity extends AppCompatActivity {
                     saveUser();
                 }
             }
+        });
+
+        login.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         login1.setOnClickListener(v -> {
