@@ -12,5 +12,6 @@
     <string name="register">Registrieren</string>
     <string name="login">Login</string>
     <string name="update">Speichern</string>
+    <string name="search">Suchen...</string>
 
 </resources>
