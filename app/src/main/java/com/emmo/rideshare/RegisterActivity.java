@@ -42,8 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         password2 = findViewById(R.id.inputConfirmPassword);
         Button register = findViewById(R.id.btnRegister);
         TextView login1 = findViewById(R.id.textView3);
-        TextView login2 = findViewById(R.id.register_to_login_link);
-        LinearLayout login = findViewById(R.id.lin_reg);
+        TextView login2 = findViewById(R.id.textView2);
+        LinearLayout login = findViewById(R.id.btnLogin);
 
         password1.addTextChangedListener(textWatcher);
         password2.addTextChangedListener(textWatcher);

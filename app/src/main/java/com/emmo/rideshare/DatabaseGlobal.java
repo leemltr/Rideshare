@@ -77,11 +77,11 @@ public class DatabaseGlobal {
     public void checkUserExists(String userEmail, OnUserExistsListener listener) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 
-        // Führe eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
+        // Führt eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
         usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Überprüfe, ob ein Benutzer mit dieser E-Mail existiert
+                // Überprüft, ob ein Benutzer mit dieser E-Mail existiert
                 boolean userExists = dataSnapshot.exists();
 
                 // Rückgabe des Ergebnisses über das Listener-Interface
@@ -452,6 +452,96 @@ public class DatabaseGlobal {
         return future;
     }
 
+    public void findRideByDateTime(String date, String time, OnRideFoundListener listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("ride");
+
+        Query query = myRef.orderByChild("date").equalTo(date).orderByChild("time").equalTo(time);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Ride> rides = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ride ride = snapshot.getValue(Ride.class);
+                    if (ride != null) {
+                        rides.add(ride);
+                    }
+                }
+                listener.onRideFound(rides);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Behandlung von Datenbankfehlern
+            }
+        });
+    }
+
+    // Rückruffunktion für die Benachrichtigung über die gefundene Fahrt
+    public interface OnRideFoundListener {
+        void onRideFound(List<Ride> rides);
+    }
+
+    public void findRideByDateTimeAndZips(String date, String time, String startZip, String endZip, OnRideFoundListener listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("ride");
+
+        Query query = myRef.orderByChild("date").equalTo(date)
+                .orderByChild("time").equalTo(time)
+                .orderByChild("startZip").equalTo(startZip)
+                .orderByChild("endZip").equalTo(endZip);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Ride> rides = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ride ride = snapshot.getValue(Ride.class);
+                    if (ride != null) {
+                        rides.add(ride);
+                    }
+                }
+                listener.onRideFound(rides);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Behandlung von Datenbankfehlern
+            }
+        });
+    }
+
+    public void findRideByDateTimeAndCities(String date, String time, String startCity, String endCity, OnRideFoundListener listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("ride");
+
+        Query query = myRef.orderByChild("date").equalTo(date)
+                .orderByChild("time").equalTo(time)
+                .orderByChild("startCity").equalTo(startCity)
+                .orderByChild("endCity").equalTo(endCity);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Ride> rides = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ride ride = snapshot.getValue(Ride.class);
+                    if (ride != null) {
+                        rides.add(ride);
+                    }
+                }
+                listener.onRideFound(rides);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Behandlung von Datenbankfehlern
+            }
+        });
+    }
+
+
 
     //Sinnvoll NewRide statt Ride zu benutzen?
     public void updateRideInDatabase(String rideId, NewRide updatedRide) {
@@ -507,7 +597,7 @@ public class DatabaseGlobal {
                         oldRide.setNotes(updatedRide.getNotes());
                     }
 
-                    // Schreibe die aktualisierten Werte zurück in die Datenbank
+                    // Schreibt die aktualisierten Werte zurück in die Datenbank
                     ridesRef.setValue(oldRide)
                             .addOnSuccessListener(aVoid -> {
                                 // Erfolgreich aktualisiert
