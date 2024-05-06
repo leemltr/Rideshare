@@ -1,9 +1,12 @@
 package com.emmo.rideshare;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,13 +19,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class RegisterActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-    private EditText fname;
-    private EditText lname;
-    private EditText emailText;
-    private EditText password1;
-    private EditText password2;
+public class RegisterActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private EditText fname, lname, emailText, password1, password2;
     private boolean passwordTrue = false;
 
     @Override
@@ -35,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        mAuth = FirebaseAuth.getInstance();
+
         fname = findViewById(R.id.input_vname);
         lname = findViewById(R.id.input_nname);
         emailText = findViewById(R.id.inputEmail);
@@ -103,11 +107,39 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public void createUser(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "createUserWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        updateUI();
+                    }
+                });
+    }
+
     private void saveUser(){
         String firstname = fname.getText().toString();
         String lastname = lname.getText().toString();
         String email = emailText.getText().toString();
         String pword = password1.getText().toString();
+
+        createUser(email,pword);
 
         NewUser user = new NewUser();
         user.setFirstname(firstname);
@@ -116,15 +148,21 @@ public class RegisterActivity extends AppCompatActivity {
         user.setPassword(pword);
 
         DatabaseGlobal database = new DatabaseGlobal();
-        // Aufruf der Methode zur Navigation zur nächsten Aktivität
         database.writeToDatabaseUser(user, this::navigateToNextActivity);
     }
 
     private void navigateToNextActivity() {
-        // Code zum Wechseln zur nächsten Aktivität
         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         startActivity(intent);
-        finish(); // Optional, um die aktuelle Aktivität zu schließen
+        finish();
+    }
+
+    private void updateUI(){
+        fname.setText("");
+        lname.setText("");
+        emailText.setText("");
+        password1.setText("");
+        password2.setText("");
     }
 
 }

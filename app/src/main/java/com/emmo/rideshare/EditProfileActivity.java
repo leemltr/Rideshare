@@ -15,13 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private EditText vname;
-    private EditText nname;
-    private EditText email;
-    private EditText street;
-    private EditText streetnr;
-    private EditText zip;
-    private EditText city;
+    private EditText vname, nname, email, street, streetnr, city, zip;
     private Button save;
     private AlertDialog exitConfirmationDialog;
 

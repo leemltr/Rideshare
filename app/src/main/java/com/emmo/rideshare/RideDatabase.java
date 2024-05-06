@@ -1,5 +1,7 @@
 package com.emmo.rideshare;
 
+import java.util.List;
+
 public class RideDatabase {
     public void readRide(String id){
         DatabaseGlobal databaseGlobal = new DatabaseGlobal();
@@ -13,5 +15,16 @@ public class RideDatabase {
             // Fehler beim Auslesen des Rides
             return null;
         });
+    }
+
+    public void findRidebyId(String userId){
+        DatabaseGlobal databaseGlobal = new DatabaseGlobal();
+        databaseGlobal.findRidesByUserId(userId, new DatabaseGlobal.OnRidesFoundListener() {
+            @Override
+            public void onRidesFound(List<Ride> rides) {
+                // Hier kannst du die gefundenen Fahrten verwenden
+            }
+        });
+
     }
 }

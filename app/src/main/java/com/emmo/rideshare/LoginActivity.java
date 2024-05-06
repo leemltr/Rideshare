@@ -1,7 +1,10 @@
 package com.emmo.rideshare;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,10 +16,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class LoginActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-    private EditText emailText;
-    private EditText passwordText;
+public class LoginActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private EditText emailText, passwordText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        mAuth = FirebaseAuth.getInstance();
         emailText = findViewById(R.id.inputEmail);
         passwordText = findViewById(R.id.inputPassword2);
         Button save = findViewById(R.id.btnLogin);
@@ -38,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = passwordText.getText().toString();
             boolean login = checkLogin(email, password);
             if(login){
+                signInUser(email, password);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -58,5 +65,25 @@ public class LoginActivity extends AppCompatActivity {
     public boolean checkLogin(String email, String password){
         UserDatabase userDatabase = new UserDatabase();
         return userDatabase.checkUser(email, password);
+    }
+
+    public void signInUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "signInWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        updateUI();
+                    }
+                });
+    }
+
+    private void updateUI(){
+        emailText.setText("");
+        passwordText.setText("");
     }
 }

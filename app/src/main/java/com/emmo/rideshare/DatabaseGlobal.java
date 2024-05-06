@@ -31,6 +31,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
         String userId = myRef.push().getKey();
+        DatabaseReference userEmailsRef = database.getReference("userEmails");
 
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", userId);
@@ -60,13 +61,12 @@ public class DatabaseGlobal {
         assert userId != null;
         myRef.child(userId).setValue(userMap)
                 .addOnSuccessListener(aVoid -> {
-                    // Erfolgreich angelegt
+                    userEmailsRef.child(newUser.getEmail()).setValue(userId);
+                    listener.onUserSaved();
                 })
                 .addOnFailureListener(e -> {
                     // Fehler beim Anlegen
                 });
-
-        listener.onUserSaved();
     }
 
     // Rückruffunktion für die Benachrichtigung über das abgeschlossene Speichern des Benutzers
@@ -193,6 +193,49 @@ public class DatabaseGlobal {
 
         return future;
     }
+
+    public CompletableFuture<User> readUserFromDatabase(String email) {
+        CompletableFuture<User> future = new CompletableFuture<>();
+        DatabaseReference userEmailsRef = FirebaseDatabase.getInstance().getReference("userEmails");
+
+        // Benutzer-ID anhand der E-Mail-Adresse suchen
+        userEmailsRef.child(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String userId = dataSnapshot.getValue(String.class);
+                if (userId != null) {
+                    // Wenn eine Benutzer-ID gefunden wurde, werdem die Benutzerdaten anhand der ID gesucht
+                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                    usersRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            if (user != null) {
+                                future.complete(user);
+                            } else {
+                                future.completeExceptionally(new RuntimeException("Benutzer mit dieser E-Mail-Adresse nicht gefunden"));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
+                        }
+                    });
+                } else {
+                    future.completeExceptionally(new RuntimeException("Benutzer mit dieser E-Mail-Adresse nicht gefunden"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
+            }
+        });
+
+        return future;
+    }
+
 
     public void updateUserInDatabase(User user){//, String profileImageUrl) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -331,7 +374,18 @@ public class DatabaseGlobal {
     *
     *
     *
+    *
+    *
+    *
+    *
+    *
+    *
     RIDE
+    *
+    *
+    *
+    *
+    *
     *
     *
     *
@@ -403,27 +457,30 @@ public class DatabaseGlobal {
         });
     }
 
-    public void readRidesByUserId(int userId, final RidesByUserCallback callback) {
-        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride");
+    public void findRidesByUserId(String userId, OnRidesFoundListener listener) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ridesRef = database.getReference("ride");
 
-        Query query = ridesRef.orderByChild("idPerson").equalTo(userId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        ridesRef.orderByChild("idPerson").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Ride> rides = new ArrayList<>();
+                List<Ride> ridesList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Ride ride = snapshot.getValue(Ride.class);
-                    rides.add(ride);
+                    ridesList.add(ride);
                 }
-                callback.onRidesLoaded(rides);
+                listener.onRidesFound(ridesList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
-                callback.onFailure(databaseError.getMessage());
+                // Handle onCancelled event
             }
         });
+    }
+
+    public interface OnRidesFoundListener {
+        void onRidesFound(List<Ride> rides);
     }
 
     public CompletableFuture<Ride> readRideFromDatabase(String rideId) {

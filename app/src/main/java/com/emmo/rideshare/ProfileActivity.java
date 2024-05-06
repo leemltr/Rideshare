@@ -15,15 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class ProfileActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-    private TextView vname;
-    private TextView nname;
-    private TextView email;
-    private TextView street;
-    private TextView streetnr;
-    private TextView zip;
-    private TextView city;
+public class ProfileActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private TextView vname, nname, email, street, streetnr, zip, city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        mAuth = FirebaseAuth.getInstance();
 
         vname = findViewById(R.id.profile_vname);
         nname = findViewById(R.id.profile_nname);
@@ -77,6 +75,22 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void loadUser(){
-
+        DatabaseGlobal database = new DatabaseGlobal();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            String emailString = currentUser.getEmail();
+            database.readUserFromDatabase(emailString).thenAccept(user -> {
+                vname.setText(user.getFirstname());
+                nname.setText(user.getLastname());
+                email.setText(user.getEmail());
+                zip.setText(user.getZip());
+                city.setText(user.getCity());
+                street.setText(user.getStreet());
+                streetnr.setText(user.getStreetnumber());
+            }).exceptionally(ex -> {
+                ex.printStackTrace();
+                return null;
+            });
+        }
     }
 }
