@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile"
@@ -10,7 +11,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadeScrollbars="true" />
+        android:fadeScrollbars="true"
+        android:scrollbars="vertical" />
 
     <ImageView
         android:id="@+id/header_img"
@@ -47,8 +49,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/vname"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_img" />
@@ -63,8 +66,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/nname"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_vname" />
@@ -79,8 +83,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/email"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_nname" />
@@ -95,8 +100,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/street"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email" />
@@ -111,8 +117,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/hnr"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_address_str" />
@@ -127,8 +134,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/zipcode"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_address_nr" />
@@ -143,8 +151,9 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="@string/city"
-        android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_address_plz" />
