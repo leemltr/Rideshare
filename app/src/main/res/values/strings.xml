@@ -6,12 +6,13 @@
     <string name="street">Straße</string>
     <string name="hnr">Hausnummer</string>
     <string name="zipcode">PLZ</string>
-    <string name="city">stadt</string>
+    <string name="city">Stadt</string>
     <string name="email">Email</string>
     <string name="pword">Passwort</string>
     <string name="register">Registrieren</string>
     <string name="login">Login</string>
     <string name="update">Speichern</string>
     <string name="search">Suchen...</string>
+    <string name="logout">Logout</string>
 
 </resources>
