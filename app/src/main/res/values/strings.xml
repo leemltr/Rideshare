@@ -15,5 +15,8 @@
     <string name="searchStart">Startpunkt</string>
     <string name="searchEnd">Zielpunkt</string>
     <string name="logout">Logout</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
 
 </resources>
