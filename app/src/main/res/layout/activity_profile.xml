@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
-    <include layout="@layout/toolbar" />
+    android:orientation="vertical"
+    tools:context=".ProfileActivity"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fadeScrollbars="true" />
+    <include layout="@layout/toolbar"/>
+
 
     <ImageView
         android:id="@+id/header_img"
@@ -20,128 +20,151 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#736E6E"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#736E6E"/>
 
     <ImageView
         android:id="@+id/profile_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="483dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/profile_vname"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/vname"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_img" />
+        android:text="Name:"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:id="@+id/profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/profile_img"
+        android:drawableLeft="@drawable/ic_profile"
+        android:drawablePadding="10dp"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profile_lin1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_lin2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/vname"
+                android:textSize="16sp"
+                android:padding="20dp"
+                android:id="@+id/profile_vname"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/nname"
+                android:textSize="16sp"
+                android:padding="20dp"
+                android:id="@+id/profile_nname"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/profile_nname"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/nname"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_vname" />
+        android:text="Adresse:"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:id="@+id/profile_adr"
+        app:layout_constraintTop_toBottomOf="@+id/profile_lin1"
+        android:drawableLeft="@drawable/ic_pin_person"
+        android:drawablePadding="10dp"/>
 
-    <TextView
-        android:id="@+id/profile_email"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/email"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_nname" />
+        android:id="@+id/profile_lin4"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/profile_address_str"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/street"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_email" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_lin5"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/profile_address_nr"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/hnr"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_address_str" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/street"
+                android:textSize="16sp"
+                android:padding="20dp"
+                android:id="@+id/profile_address_str"/>
 
-    <TextView
-        android:id="@+id/profile_address_plz"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/zipcode"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_address_nr" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/hnr"
+                android:textSize="16sp"
+                android:padding="20dp"
+                android:id="@+id/profile_address_nr"/>
 
-    <TextView
-        android:id="@+id/profile_address_city"
-        android:layout_width="0dp"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_lin6"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/zipcode"
+                android:textSize="16sp"
+                android:padding="20dp"
+                android:id="@+id/profile_address_plz"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/city"
+                android:textSize="16sp"
+                android:padding="20dp"
+                android:id="@+id/profile_address_city"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:drawablePadding="10dp"
-        android:elevation="3dp"
-        android:hint="@string/city"
-        android:padding="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_address_plz" />
+        android:id="@+id/profile_lin8"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_mail"
+            android:drawablePadding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:textSize="16sp"
+            android:padding="20dp"
+            android:id="@+id/profile_email"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnLogout"
@@ -151,10 +174,7 @@
         android:drawablePadding="10dp"
         android:text="@string/logout"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="341dp"
-        app:layout_constraintTop_toBottomOf="@+id/profile_address_city"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_gravity="center"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
