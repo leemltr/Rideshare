@@ -3,7 +3,10 @@
     <style name="Base.Theme.Rideshare" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorAccent">@color/accentColor</item>
     </style>
 
     <style name="Theme.Rideshare" parent="Base.Theme.Rideshare" />
+    <style name="myCustomToolBarTheme" parent="ThemeOverlay.AppCompat.Dark"/>
 </resources>
