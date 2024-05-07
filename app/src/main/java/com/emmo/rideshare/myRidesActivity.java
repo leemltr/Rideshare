@@ -29,7 +29,7 @@ public class myRidesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_my_rides);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.myRide), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -40,6 +40,19 @@ public class myRidesActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        getUserId();
+
+        ArrayList<Ride> data = prepareData();
+        adapter = new AdapterView(data);
+        adapter = new AdapterView(data, ride -> {
+            /*
+            Intent intent = new Intent(myRidesActivity.this, DetailActivity.class);
+            intent.putExtra("ride", (CharSequence) ride);
+            startActivity(intent);
+
+             */
+        });
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -80,7 +93,7 @@ public class myRidesActivity extends AppCompatActivity {
         database.findRidesByUserId(idUser, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
             public void onSuccessRides(List<Ride> rides) {
-
+                ridesList.addAll(rides);
             }
         });
     }

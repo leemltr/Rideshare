@@ -137,34 +137,6 @@ public class DatabaseGlobal {
         });
     }
 
-    /*
-    public void readUserFromDatabase(int userId) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("users"); // Pfad in deiner Datenbankstruktur
-
-        // Führe eine Abfrage aus, um den Benutzer mit der angegebenen ID zu finden
-        usersRef.orderByChild("id").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Datenänderungen wurden empfangen
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Iteriere über die gefundenen Benutzer
-                    User user = snapshot.getValue(User.class);
-                    // Hier kannst du mit dem gefundenen Benutzer arbeiten
-                    assert user != null;
-                    System.out.println("Benutzer gefunden: " + user.getId() + " " + user.getFirstname() + " " + user.getLastname());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
-                System.out.println("Fehler beim Lesen der Daten: " + databaseError.getMessage());
-            }
-        });
-    }
-     */
-
     public CompletableFuture<User> readUserFromDatabaseById(String userId) {
         CompletableFuture<User> future = new CompletableFuture<>();
 

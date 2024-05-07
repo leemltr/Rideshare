@@ -56,8 +56,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Ride> data = prepareData();
         adapter = new AdapterView(data);
         adapter = new AdapterView(data, ride -> {
-            // Hier wird Ihre Methode aufgerufen, wenn auf ein Element geklickt wird
-            // z.B. Methode zur Anzeige von Details der ausgewählten Fahrt
+            /*
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra("ride", (CharSequence) ride);
+            startActivity(intent);
+
+             */
         });
         recyclerView.setAdapter(adapter);
 
