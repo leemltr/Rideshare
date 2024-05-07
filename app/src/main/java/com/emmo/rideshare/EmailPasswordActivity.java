@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class EmailPasswordActivity extends AppCompatActivity {
+public class EmailPasswordActivity extends AppCompatActivity { //existiert nur zum Kopieren
     private FirebaseAuth mAuth;
 
     public void initializeUser(){

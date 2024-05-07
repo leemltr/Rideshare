@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextView vname, nname, email, street, streetnr, zip, city;
+    private Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         streetnr = findViewById(R.id.profile_address_nr);
         zip = findViewById(R.id.profile_address_plz);
         city = findViewById(R.id.profile_address_city);
+        logout = findViewById(R.id.btnLogout);
 
         loadUser();
 
@@ -51,6 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
         setDoubleTapListener(streetnr);
         setDoubleTapListener(zip);
         setDoubleTapListener(city);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
 
     }
 
@@ -63,6 +73,13 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    public void signOut(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @SuppressLint("ClickableViewAccessibility")
