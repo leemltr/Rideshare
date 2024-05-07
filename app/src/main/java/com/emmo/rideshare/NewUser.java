@@ -1,7 +1,6 @@
 package com.emmo.rideshare;
 
-public class User {
-    private String id;
+public class NewUser {
     private String email;
     private String password;
     private String firstname;
@@ -11,14 +10,6 @@ public class User {
     private String city;
     private String street;
     private String streetnumber;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;

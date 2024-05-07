@@ -3,11 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/ride"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Ride_Activity"
+    tools:context=".RideActivity"
     android:padding="10dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="true" />
 
     <TextView
         android:layout_width="match_parent"
@@ -18,6 +23,34 @@
         android:layout_marginBottom="10dp"
         android:id="@+id/text1"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start:"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/startort"
+        android:layout_below="@+id/text1"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/startName"
+        android:textSize="24sp"
+        android:hint="Von: Name(optinal)"
+        android:inputType="text"
+        android:layout_below="@+id/startort"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/startPlz"
+        android:textSize="24sp"
+        android:hint="Von: Postleitzahl"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/startName"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +58,53 @@
         android:textSize="24sp"
         android:hint="Von: Stadt"
         android:inputType="text"
-        android:layout_below="@+id/text1"/>
+        android:layout_below="@+id/startPlz"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/startStreet"
+        android:textSize="24sp"
+        android:hint="Von: Strasse"
+        android:inputType="text"
+        android:layout_below="@+id/start"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/startNumber"
+        android:textSize="24sp"
+        android:hint="Von: Hausnummer"
+        android:inputType="text"
+        android:layout_below="@+id/startStreet"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ziel:"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/zielort"
+        android:layout_below="@+id/startNumber"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zielName"
+        android:textSize="24sp"
+        android:hint="Nach: Name(optinal)"
+        android:inputType="text"
+        android:layout_below="@+id/zielort"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/plzZiel"
+        android:textSize="24sp"
+        android:hint="Nach: Postleitzahl"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/zielName"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -34,7 +113,35 @@
         android:textSize="24sp"
         android:hint="Nach: Stadt"
         android:inputType="text"
-        android:layout_below="@id/start"/>
+        android:layout_below="@id/plzZiel"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zielStreet"
+        android:textSize="24sp"
+        android:hint="Nach: Strasse"
+        android:inputType="text"
+        android:layout_below="@+id/end"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/zielNumber"
+        android:textSize="24sp"
+        android:hint="Nach: Hausnummer"
+        android:inputType="text"
+        android:layout_below="@+id/zielStreet"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Allgemein:"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/sonstiges"
+        android:layout_below="@+id/zielNumber"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -43,16 +150,25 @@
         android:textSize="24sp"
         android:hint="Datum"
         android:inputType="date"
-        android:layout_below="@id/end"/>
+        android:layout_below="@id/sonstiges"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notes"
+        android:textSize="24sp"
+        android:hint="text"
+        android:inputType="text"
+        android:layout_below="@id/date"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/time"
         android:textSize="24sp"
-        android:hint="Uhrzeit"
+        android:hint="Notizen"
         android:inputType="time"
-        android:layout_below="@+id/date"/>
+        android:layout_below="@+id/notes"/>
 
     <Button
         android:layout_width="match_parent"
@@ -63,6 +179,14 @@
         android:layout_below="@id/time"
         android:layout_marginTop="10dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnCancel"
+        android:text="Abbrechen"
+        android:textSize="24sp"
+        android:layout_below="@id/btn_newRide"
+        android:layout_marginTop="10dp"/>
 
 
 </RelativeLayout>

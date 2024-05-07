@@ -16,7 +16,7 @@
             android:name=".myRidesActivity"
             android:exported="false" />
         <activity
-            android:name=".Ride_Activity"
+            android:name=".RideActivity"
             android:exported="false" />
         <activity
             android:name=".DetailActivity"

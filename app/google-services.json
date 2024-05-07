@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "231346642369",
+    "project_id": "rideshare-9ec83",
+    "storage_bucket": "rideshare-9ec83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231346642369:android:2e1cceb592b2996defe340",
+        "android_client_info": {
+          "package_name": "com.emmo.rideshare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg_1Ic-dEUBjfCMIdqnVEbKyBN55CgoVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
