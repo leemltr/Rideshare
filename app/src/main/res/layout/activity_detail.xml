@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DetailActivity">
+    <include layout="@layout/toolbar" />
 
     <TextView
         android:layout_width="match_parent"
