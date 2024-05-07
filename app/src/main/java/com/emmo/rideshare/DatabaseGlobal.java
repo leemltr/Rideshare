@@ -215,9 +215,8 @@ public class DatabaseGlobal {
     public void updateUserInDatabase(User user, OnUserUpdateListener listener){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
-        String userIdString = String.valueOf(user.getId()); // Muss als String weitergegeben werden
+        String userIdString = user.getId();
 
-        // Lese die alten Benutzerdaten aus der Datenbank
         usersRef.child(userIdString).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -225,7 +224,6 @@ public class DatabaseGlobal {
                     // Alte Benutzerdaten vorhanden
                     User oldUser = dataSnapshot.getValue(User.class);
                     assert oldUser != null;
-                    // Aktualisiere nur die Felder, die in der aktualisierten Benutzerinstanz vorhanden sind
                     if (user.getEmail() != null) {
                         oldUser.setEmail(user.getEmail());
                     }
@@ -254,10 +252,8 @@ public class DatabaseGlobal {
                         oldUser.setStreetnumber(user.getStreetnumber());
                     }
 
-                    // Schreibt die aktualisierten Benutzerdaten zurück in die Datenbank
                     usersRef.child(userIdString).setValue(oldUser)
                             .addOnSuccessListener(aVoid -> listener.onUserUpdateSuccess())
-                            // In dem onFailureListener des ValueEventListener
                             .addOnFailureListener(e -> listener.onUserUpdateFailure());
                 } else {
                     // Der Benutzer mit der angegebenen userId existiert nicht
