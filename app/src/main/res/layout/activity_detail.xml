@@ -204,7 +204,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="datum"
+            android:hint="Vorname"
             android:textSize="16sp"
             android:padding="20dp"
             android:id="@+id/detail_vname"/>
@@ -213,11 +213,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="uhrzeit"
+            android:hint="Nachname"
             android:textSize="16sp"
             android:padding="20dp"
             android:id="@+id/detail_nname"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kontaktieren:"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:id="@+id/detail_contact"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:padding="20dp"/>
 
 </LinearLayout>
