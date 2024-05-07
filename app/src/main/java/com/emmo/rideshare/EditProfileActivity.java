@@ -42,7 +42,6 @@ public class EditProfileActivity extends AppCompatActivity {
         });
         vname = findViewById(R.id.profile_vname);
         nname = findViewById(R.id.profile_nname);
-        email = findViewById(R.id.profile_email);
         street = findViewById(R.id.profile_address_str);
         streetnr = findViewById(R.id.profile_address_nr);
         zip = findViewById(R.id.profile_address_plz);
