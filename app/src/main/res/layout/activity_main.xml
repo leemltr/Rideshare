@@ -9,8 +9,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar" />
-
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
