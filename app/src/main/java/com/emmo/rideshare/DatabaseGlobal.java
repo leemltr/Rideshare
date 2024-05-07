@@ -84,6 +84,8 @@ public class DatabaseGlobal {
                 // Rückgabe des Ergebnisses über das Listener-Interface
                 if (listener != null) {
                     listener.onUserExists(userExists);
+                } else {
+                    listener.onUserExists(userExists);
                 }
             }
 
@@ -357,6 +359,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
         String rideId = myRef.push().getKey();
+        String dateTime = newRide.getDate() + "_" + newRide.getTime();
 
         Map<String, Object> rideMap = new HashMap<>();
         rideMap.put("id", rideId);
@@ -371,8 +374,7 @@ public class DatabaseGlobal {
         rideMap.put("endStreet", newRide.getEndStreet());
         rideMap.put("endNumber", newRide.getEndNumber());
         rideMap.put("endName", newRide.getEndName());
-        rideMap.put("date", newRide.getDate());
-        rideMap.put("time", newRide.getTime());
+        rideMap.put("date_time", dateTime);
         rideMap.put("notes", newRide.getNotes());
 
         assert rideId != null;
@@ -480,7 +482,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date").startAt(date).orderByChild("time").startAt(time);
+        Query query = myRef.orderByChild("date_time").equalTo(date + "_" + time);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -506,10 +508,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date").startAt(date)
-                .orderByChild("time").startAt(time)
-                .orderByChild("startZip").equalTo(startZip)
-                .orderByChild("endZip").equalTo(endZip);
+        Query query = myRef.orderByChild("date_time").startAt(date + "_" + time);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -517,7 +516,7 @@ public class DatabaseGlobal {
                 List<Ride> rides = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Ride ride = snapshot.getValue(Ride.class);
-                    if (ride != null) {
+                    if (ride != null && ride.getStartZip().equals(startZip) && ride.getEndZip().equals(endZip)) {
                         rides.add(ride);
                     }
                 }
@@ -535,10 +534,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date").startAt(date)
-                .orderByChild("time").startAt(time)
-                .orderByChild("startCity").equalTo(startCity)
-                .orderByChild("endCity").equalTo(endCity);
+        Query query = myRef.orderByChild("date_time").startAt(date + "_" + time);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -546,7 +542,7 @@ public class DatabaseGlobal {
                 List<Ride> rides = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Ride ride = snapshot.getValue(Ride.class);
-                    if (ride != null) {
+                    if (ride != null && ride.getStartCity().equals(startCity) && ride.getEndCity().equals(endCity)) {
                         rides.add(ride);
                     }
                 }

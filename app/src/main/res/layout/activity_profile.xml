@@ -48,7 +48,6 @@
         android:elevation="3dp"
         android:hint="@string/vname"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_img" />
@@ -64,7 +63,6 @@
         android:elevation="3dp"
         android:hint="@string/nname"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_vname" />
@@ -80,7 +78,6 @@
         android:elevation="3dp"
         android:hint="@string/email"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_nname" />
@@ -96,7 +93,6 @@
         android:elevation="3dp"
         android:hint="@string/street"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email" />
@@ -112,7 +108,6 @@
         android:elevation="3dp"
         android:hint="@string/hnr"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_address_str" />
@@ -128,7 +123,6 @@
         android:elevation="3dp"
         android:hint="@string/zipcode"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_address_nr" />
@@ -144,7 +138,6 @@
         android:elevation="3dp"
         android:hint="@string/city"
         android:padding="13dp"
-        app:layout_constrainedWidth_percent=".8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_address_plz" />

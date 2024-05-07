@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = emailText.getText().toString();
                 UserDatabase userDatabase = new UserDatabase();
                 boolean newUser = userDatabase.checkUserExists(email);
-                if(newUser) {
+                if(!newUser) {
                     saveUser();
                 }
             }
@@ -148,7 +148,14 @@ public class RegisterActivity extends AppCompatActivity {
         user.setPassword(pword);
 
         DatabaseGlobal database = new DatabaseGlobal();
-        database.writeToDatabaseUser(user, this::navigateToNextActivity);
+        database.writeToDatabaseUser(user, new DatabaseGlobal.OnUserSavedListener() {
+            @Override
+            public void onUserSaved() {
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
     }
 
     private void navigateToNextActivity() {
