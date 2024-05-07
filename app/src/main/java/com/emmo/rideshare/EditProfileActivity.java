@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class EditProfileActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private EditText vname, nname, email, street, streetnr, city, zip;
     private String originalVname, originalNname, originalEmail, originalStreet, originalStreetNr, originalCity, originalZip;
     private Button save;

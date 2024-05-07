@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RideActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     EditText startName, startCity, startZip, startStreet, startNumber, endName, endCity, endZip, endStreet, endNumber, notes, date, time;
     Button newRide, cancel;
     private FirebaseAuth mAuth;
