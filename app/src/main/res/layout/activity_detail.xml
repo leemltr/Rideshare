@@ -31,13 +31,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/deatil_lin1"
+        android:id="@+id/detail_lin1"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/deatil_lin2"
+            android:id="@+id/detail_lin2"
             android:orientation="horizontal">
 
             <TextView
@@ -61,7 +61,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/deatil_lin3"
+            android:id="@+id/detail_lin3"
             android:orientation="horizontal">
 
             <TextView
@@ -96,13 +96,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/deatil_lin4"
+        android:id="@+id/detail_lin4"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/deatil_lin5"
+            android:id="@+id/detail_lin5"
             android:orientation="horizontal">
 
             <TextView
@@ -126,7 +126,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/deatil_lin6"
+            android:id="@+id/detail_lin6"
             android:orientation="horizontal">
 
             <TextView
@@ -152,7 +152,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/deatil_lin7"
+        android:id="@+id/detail_lin7"
         android:orientation="horizontal">
 
         <TextView
@@ -188,12 +188,36 @@
     </LinearLayout>
 
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fahrer"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:id="@+id/detail_fahrer"/>
+        android:id="@+id/detail_lin8"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fahrer:"
+            android:textSize="16sp"
+            android:padding="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="datum"
+            android:textSize="16sp"
+            android:padding="20dp"
+            android:id="@+id/detail_vname"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="uhrzeit"
+            android:textSize="16sp"
+            android:padding="20dp"
+            android:id="@+id/detail_nname"/>
+
+    </LinearLayout>
 
 </LinearLayout>
