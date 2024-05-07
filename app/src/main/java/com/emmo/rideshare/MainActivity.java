@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private AdapterView adapter;
     private RecyclerView.LayoutManager layoutManager;
     private Toolbar toolbar;
     private SearchView searchStart, searchEnd;
@@ -62,15 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Ride> data = prepareData();
         adapter = new AdapterView(data);
-        adapter = new AdapterView(data, ride -> {
-            /*
-            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra("ride", (CharSequence) ride);
-            startActivity(intent);
-
-             */
-        });
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((OnItemClickListener) ride -> {
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra("ride", (CharSequence) ride); // Ride-Objekt übergeben
+            startActivity(intent);
+        });
 
         searchStart.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

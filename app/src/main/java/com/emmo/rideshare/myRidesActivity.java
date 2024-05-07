@@ -107,8 +107,7 @@ public class myRidesActivity extends AppCompatActivity {
 
     private void getRidesList(String userId){
         DatabaseGlobal database = new DatabaseGlobal();
-        String idUser = String.valueOf(userId);
-        database.findRidesByUserId(idUser, new DatabaseGlobal.OnRidesFoundListener() {
+        database.findRidesByUserId(userId, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
             public void onSuccessRides(List<Ride> rides) {
                 ridesList.addAll(rides);

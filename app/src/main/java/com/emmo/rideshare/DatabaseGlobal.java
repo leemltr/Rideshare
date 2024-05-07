@@ -598,11 +598,9 @@ public class DatabaseGlobal {
                     if (updatedRide.getEndName() != null) {
                         oldRide.setEndName(updatedRide.getEndName());
                     }
-                    if (updatedRide.getDate() != null) {
-                        oldRide.setDate(updatedRide.getDate());
-                    }
-                    if (updatedRide.getTime() != null) {
-                        oldRide.setTime(updatedRide.getTime());
+                    if (updatedRide.getDate() != null && updatedRide.getTime() != null) {
+                        String dateTime = updatedRide.getDate() + "_" + updatedRide.getTime();
+                        oldRide.setDate_time(dateTime);
                     }
                     if (updatedRide.getNotes() != null) {
                         oldRide.setNotes(updatedRide.getNotes());

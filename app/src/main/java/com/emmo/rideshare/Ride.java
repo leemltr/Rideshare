@@ -13,8 +13,7 @@ public class Ride {
     private String endStreet;
     private String endNumber;
     private String endName;
-    private String date;
-    private String time;
+    private String date_time;
     private String notes;
 
     public int getId() {
@@ -113,20 +112,12 @@ public class Ride {
         this.endName = endName;
     }
 
-    public String getDate() {
-        return date;
+    public String getDate_time() {
+        return date_time;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate_time(String date_time) {
+        this.date_time = date_time;
     }
 
     public String getNotes() {
