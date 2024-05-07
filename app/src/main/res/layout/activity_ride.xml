@@ -6,7 +6,7 @@
     android:id="@+id/ride"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Ride_Activity"
+    tools:context=".RideActivity"
     android:padding="10dp">
 
     <ScrollView
@@ -36,11 +36,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/startName"
+        android:textSize="24sp"
+        android:hint="Von: Name(optinal)"
+        android:inputType="text"
+        android:layout_below="@+id/startort"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/startPlz"
         android:textSize="24sp"
         android:hint="Von: Postleitzahl"
         android:inputType="numberDecimal"
-        android:layout_below="@+id/startort"/>
+        android:layout_below="@+id/startName"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -82,11 +91,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/zielName"
+        android:textSize="24sp"
+        android:hint="Nach: Name(optinal)"
+        android:inputType="text"
+        android:layout_below="@+id/zielort"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/plzZiel"
         android:textSize="24sp"
         android:hint="Nach: Postleitzahl"
         android:inputType="numberDecimal"
-        android:layout_below="@+id/zielort"/>
+        android:layout_below="@+id/zielName"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -115,6 +133,16 @@
         android:inputType="text"
         android:layout_below="@+id/zielStreet"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Allgemein:"
+        android:textSize="24sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/sonstiges"
+        android:layout_below="@+id/zielNumber"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,16 +150,25 @@
         android:textSize="24sp"
         android:hint="Datum"
         android:inputType="date"
-        android:layout_below="@id/zielNumber"/>
+        android:layout_below="@id/sonstiges"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notes"
+        android:textSize="24sp"
+        android:hint="text"
+        android:inputType="text"
+        android:layout_below="@id/date"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/time"
         android:textSize="24sp"
-        android:hint="Uhrzeit"
+        android:hint="Notizen"
         android:inputType="time"
-        android:layout_below="@+id/date"/>
+        android:layout_below="@+id/notes"/>
 
     <Button
         android:layout_width="match_parent"

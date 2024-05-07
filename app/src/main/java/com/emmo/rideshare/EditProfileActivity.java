@@ -3,9 +3,12 @@ package com.emmo.rideshare;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -14,10 +17,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class EditProfileActivity extends AppCompatActivity {
     private EditText vname, nname, email, street, streetnr, city, zip;
+    private String originalVname, originalNname, originalEmail, originalStreet, originalStreetNr, originalCity, originalZip;
     private Button save;
-    private AlertDialog exitConfirmationDialog;
+    private FirebaseAuth mAuth;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,34 +46,133 @@ public class EditProfileActivity extends AppCompatActivity {
         city = findViewById(R.id.profile_address_city);
         save = findViewById(R.id.update_btn);
 
+        mAuth = FirebaseAuth.getInstance();
         loadUser();
+
+        originalVname = vname.getText().toString();
+        originalNname = nname.getText().toString();
+        originalEmail = email.getText().toString();
+        originalStreet = street.getText().toString();
+        originalStreetNr = streetnr.getText().toString();
+        originalCity = city.getText().toString();
+        originalZip = zip.getText().toString();
+
+        vname.addTextChangedListener(createTextWatcher(vname, () -> originalVname = vname.getText().toString()));
+        nname.addTextChangedListener(createTextWatcher(nname, () -> originalNname = nname.getText().toString()));
+        email.addTextChangedListener(createTextWatcher(email, () -> originalEmail = email.getText().toString()));
+        street.addTextChangedListener(createTextWatcher(street, () -> originalStreet = street.getText().toString()));
+        streetnr.addTextChangedListener(createTextWatcher(streetnr, () -> originalStreetNr = streetnr.getText().toString()));
+        city.addTextChangedListener(createTextWatcher(city, () -> originalCity = city.getText().toString()));
+        zip.addTextChangedListener(createTextWatcher(zip, () -> originalZip = zip.getText().toString()));
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-                startActivity(intent);
-                finish();
+                updateUser();
             }
         });
-
-        exitConfirmationDialog = new AlertDialog.Builder(this)
-                .setMessage("Möchten Sie die Aktivität wirklich verlassen?")
-                .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish(); // Beenden Sie die Aktivität, wenn "Ja" ausgewählt wurde
-                    }
-                }).setNegativeButton("Nein", null).create();
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        exitConfirmationDialog.show();
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
-    public void loadUser(){
+    private void loadUser(){
+        DatabaseGlobal database = new DatabaseGlobal();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            String emailString = currentUser.getEmail();
+            database.readUserFromDatabase(emailString).thenAccept(user -> {
+                vname.setText(user.getFirstname());
+                nname.setText(user.getLastname());
+                email.setText(user.getEmail());
+                zip.setText(user.getZip());
+                city.setText(user.getCity());
+                street.setText(user.getStreet());
+                streetnr.setText(user.getStreetnumber());
+                id = user.getId();
+            }).exceptionally(ex -> {
+                ex.printStackTrace();
+                return null;
+            });
+        }
+    }
 
+    private TextWatcher createTextWatcher(EditText editText, Runnable onChange) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nicht benötigt
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nicht benötigt
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                onChange.run();
+            }
+        };
+    }
+
+    private void updateUser(){
+        if (!originalVname.equals(vname.getText().toString()) ||
+                !originalNname.equals(nname.getText().toString()) ||
+                !originalEmail.equals(email.getText().toString()) ||
+                !originalStreet.equals(street.getText().toString()) ||
+                !originalStreetNr.equals(streetnr.getText().toString()) ||
+                !originalCity.equals(city.getText().toString()) ||
+                !originalZip.equals(zip.getText().toString())) {
+            User user = new User();
+            user.setId(id);
+            if (!originalVname.equals(vname.getText().toString())) {
+                user.setFirstname(vname.getText().toString());
+            }
+            if (!originalNname.equals(nname.getText().toString())) {
+                user.setLastname(nname.getText().toString());
+            }
+            if (!originalEmail.equals(email.getText().toString())) {
+                user.setEmail(email.getText().toString());
+            }
+            if (!originalStreet.equals(street.getText().toString())) {
+                user.setStreet(street.getText().toString());
+            }
+            if (!originalStreetNr.equals(streetnr.getText().toString())) {
+                user.setStreetnumber(streetnr.getText().toString());
+            }
+            if (!originalCity.equals(city.getText().toString())) {
+                user.setCity(city.getText().toString());
+            }
+            if (!originalZip.equals(zip.getText().toString())) {
+                user.setZip(zip.getText().toString());
+            }
+
+            DatabaseGlobal database = new DatabaseGlobal();
+            database.updateUserInDatabase(user, new DatabaseGlobal.OnUserUpdateListener() {
+                @Override
+                public void onUserUpdateSuccess() {
+                    Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                @Override
+                public void onUserUpdateFailure() {
+                    Toast.makeText(EditProfileActivity.this, "Änderungen wurden nicht gespeichert", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Keine Änderungen vorgenommen
+            Toast.makeText(this, "Keine Änderungen vorgenommen", Toast.LENGTH_SHORT).show();
+        }
     }
 }

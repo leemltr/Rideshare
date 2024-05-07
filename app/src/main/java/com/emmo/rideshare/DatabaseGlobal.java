@@ -42,9 +42,6 @@ public class DatabaseGlobal {
         if (newUser.getHochschule() != null) {
             userMap.put("hochschule", newUser.getHochschule());
         }
-        if (newUser.getAge() != null) {
-            userMap.put("age", newUser.getAge());
-        }
         if (newUser.getZip() != null) {
             userMap.put("zip", newUser.getZip());
         }
@@ -236,8 +233,12 @@ public class DatabaseGlobal {
         return future;
     }
 
+    public interface OnUserUpdateListener {
+        void onUserUpdateSuccess();
+        void onUserUpdateFailure();
+    }
 
-    public void updateUserInDatabase(User user){//, String profileImageUrl) {
+    public void updateUserInDatabase(User user, OnUserUpdateListener listener){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
         String userIdString = String.valueOf(user.getId()); // Muss als String weitergegeben werden
@@ -266,9 +267,6 @@ public class DatabaseGlobal {
                     if (user.getHochschule() != null) {
                         oldUser.setHochschule(user.getHochschule());
                     }
-                    if (user.getAge() != null) {
-                        oldUser.setAge(user.getAge());
-                    }
                     if (user.getZip() != null) {
                         oldUser.setZip(user.getZip());
                     }
@@ -282,18 +280,14 @@ public class DatabaseGlobal {
                         oldUser.setStreetnumber(user.getStreetnumber());
                     }
 
-                    // Aktualisiere die Profilbild-URL, wenn eine neue URL vorhanden ist
-                    //if (profileImageUrl != null) {
-                    //    oldUser.setProfileImageUrl(profileImageUrl);
-                    //}
-
-                    // Schreibe die aktualisierten Benutzerdaten zurück in die Datenbank
+                    // Schreibt die aktualisierten Benutzerdaten zurück in die Datenbank
                     usersRef.child(userIdString).setValue(oldUser)
                             .addOnSuccessListener(aVoid -> {
-                                // Erfolgreich aktualisiert
+                                listener.onUserUpdateSuccess();
                             })
+                            // In dem onFailureListener des ValueEventListener
                             .addOnFailureListener(e -> {
-                                // Fehler beim Aktualisieren
+                                listener.onUserUpdateFailure();
                             });
                 } else {
                     // Der Benutzer mit der angegebenen userId existiert nicht
@@ -391,7 +385,7 @@ public class DatabaseGlobal {
     *
      */
 
-    public void writeToDatabaseRide(NewRide newRide) {
+    public void writeToDatabaseRide(NewRide newRide, OnRideSaveListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
         String rideId = myRef.push().getKey();
@@ -418,11 +412,18 @@ public class DatabaseGlobal {
                 .addOnSuccessListener(aVoid -> {
                     // Erfolgreich angelegt
                     System.out.println("User erfolgreich angelegt");
+                    listener.onRideSaved();
                 })
                 .addOnFailureListener(e -> {
                     // Fehler beim Anlegen
                     System.out.println("User wurde nicht angelegt");
+                    listener.onFailure();
                 });
+    }
+
+    public interface OnRideSaveListener{
+        void onRideSaved();
+        void onFailure();
     }
 
     public interface RideCallback {

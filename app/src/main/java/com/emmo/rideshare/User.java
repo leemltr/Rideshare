@@ -7,7 +7,6 @@ public class User {
     private String firstname;
     private String lastname;
     private String hochschule;
-    private String age;
     private String zip;
     private String city;
     private String street;
@@ -59,14 +58,6 @@ public class User {
 
     public void setHochschule(String hochschule) {
         this.hochschule = hochschule;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
     }
 
     public String getZip() {
