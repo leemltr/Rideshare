@@ -106,7 +106,7 @@ public class DatabaseGlobal {
     }
 
     public interface UserIdCallback {
-        void onUserIdReceived(int userId);
+        void onUserIdReceived(String userId);
         void onFailure(String errorMessage);
     }
 
@@ -120,7 +120,7 @@ public class DatabaseGlobal {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     if (user != null) {
-                        int userId = user.getId();
+                        String userId = user.getId();
                         callback.onUserIdReceived(userId);
                         return; // Beendet die Schleife nach dem Finden des Benutzers
                     }
@@ -165,13 +165,13 @@ public class DatabaseGlobal {
     }
      */
 
-    public CompletableFuture<User> readUserFromDatabase(int userId) {
+    public CompletableFuture<User> readUserFromDatabaseById(String userId) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
 
-        usersRef.child(String.valueOf(userId)).addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -282,13 +282,9 @@ public class DatabaseGlobal {
 
                     // Schreibt die aktualisierten Benutzerdaten zurück in die Datenbank
                     usersRef.child(userIdString).setValue(oldUser)
-                            .addOnSuccessListener(aVoid -> {
-                                listener.onUserUpdateSuccess();
-                            })
+                            .addOnSuccessListener(aVoid -> listener.onUserUpdateSuccess())
                             // In dem onFailureListener des ValueEventListener
-                            .addOnFailureListener(e -> {
-                                listener.onUserUpdateFailure();
-                            });
+                            .addOnFailureListener(e -> listener.onUserUpdateFailure());
                 } else {
                     // Der Benutzer mit der angegebenen userId existiert nicht
                     System.out.println("Dieser User existiert nicht");

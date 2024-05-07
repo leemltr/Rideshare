@@ -1,6 +1,5 @@
 package com.emmo.rideshare;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,7 +23,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private String originalVname, originalNname, originalEmail, originalStreet, originalStreetNr, originalCity, originalZip;
     private Button save;
     private FirebaseAuth mAuth;
-    private int id;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
