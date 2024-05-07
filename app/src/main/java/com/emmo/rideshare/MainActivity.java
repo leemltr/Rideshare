@@ -16,7 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private SearchView searchStart, searchEnd;
-    private int startValue, endValue;
+    private int startValue=0, endValue=0;
     private FirebaseAuth mAuth;
+    private ArrayList<Ride> ridesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,29 +55,21 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Ride> data = prepareData();
         adapter = new AdapterView(data);
-        adapter = new AdapterView(data, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Ride ride) {
-                // Hier wird Ihre Methode aufgerufen, wenn auf ein Element geklickt wird
-                // z.B. Methode zur Anzeige von Details der ausgewählten Fahrt
-            }
+        adapter = new AdapterView(data, ride -> {
+            // Hier wird Ihre Methode aufgerufen, wenn auf ein Element geklickt wird
+            // z.B. Methode zur Anzeige von Details der ausgewählten Fahrt
         });
         recyclerView.setAdapter(adapter);
 
         searchStart.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Aktion ausführen, wenn die Suche durchgeführt wird
-                startValue = checkContent(query);
+            public boolean onQueryTextSubmit(String input) {
+                startValue = checkContent(input);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Aktion ausführen, wenn sich der Suchtext ändert
-                // Hier kannst du den newText verwenden, um zu reagieren, wenn der Benutzer etwas eingibt
-                // Du kannst beispielsweise den Text für eine Filterung verwenden
-                // Wenn du die RecyclerView aktualisieren möchtest, rufe hier die Methode zum Aktualisieren der Daten auf
                 startValue = checkContent(newText);
                 return false;
             }
@@ -80,25 +77,24 @@ public class MainActivity extends AppCompatActivity {
 
         searchEnd.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Aktion ausführen, wenn die Suche durchgeführt wird
-                endValue = checkContent(query);
+            public boolean onQueryTextSubmit(String input) {
+                endValue = checkContent(input);
                 if(endValue == startValue) {
-                    searchRides();
+                    getRidesList();
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Aktion ausführen, wenn sich der Suchtext ändert
                 endValue = checkContent(newText);
                 if(endValue == startValue) {
-                    searchRides();
+                    getRidesList();
                 }
                 return false;
             }
         });
+        getRidesList();
 
     }
 
@@ -117,10 +113,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<Ride> prepareData() {
-        // Hier bereiten Sie die Daten vor, die Sie in der RecyclerView anzeigen möchten
-        // Zum Beispiel können Sie eine ArrayList<MyDataModel> zurückgeben
-        // mit Instanzen Ihrer Datenklasse MyDataModel
-        return null;
+        return ridesList;
+    }
+
+
+    private void getRidesList() {
+        Date currentDate = new Date();
+        // Datum formatieren im deutschen Format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+        String formattedDate = dateFormat.format(currentDate);
+
+        // Uhrzeit formatieren
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        String formattedTime = timeFormat.format(currentDate);
+        DatabaseGlobal database = new DatabaseGlobal();
+        if(startValue==0 && endValue==0) {
+            database.findRideByDateTime(formattedDate, formattedTime, new DatabaseGlobal.OnRidesFoundListener() {
+                @Override
+                public void onSuccessRides(List<Ride> rides) {
+                    ridesList.addAll(rides);
+                }
+            });
+        } else if(startValue==1 && endValue ==1) {
+            String startZip = searchStart.getQuery().toString();
+            String endZip = searchEnd.getQuery().toString();
+            database.findRideByDateTimeAndZips(formattedDate, formattedTime, startZip, endZip, new DatabaseGlobal.OnRidesFoundListener() {
+                @Override
+                public void onSuccessRides(List<Ride> rides) {
+                    ridesList.addAll(rides);
+                }
+            });
+        } else if(startValue==2 && endValue ==2) {
+            String startCity = searchStart.getQuery().toString();
+            String endCity = searchEnd.getQuery().toString();
+            database.findRideByDateTimeAndCities(formattedDate, formattedTime, startCity, endCity, new DatabaseGlobal.OnRidesFoundListener() {
+                @Override
+                public void onSuccessRides(List<Ride> rides) {
+                    ridesList.addAll(rides);
+                }
+            });
+        }
     }
 
     private int checkContent(String text){
@@ -144,16 +176,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Der Text erfüllt weder die Bedingung aus 5 Zahlen noch nur Buchstaben.");
             Toast.makeText(this, "Bitte nur eine Stadt oder eine PLZ eingeben", Toast.LENGTH_SHORT).show();
             return 0;
-        }
-    }
-
-    private void searchRides(){
-        if(startValue == 1 && endValue == 1) {
-            //Nach Postleitzahlen suchen
-
-        } else if(startValue == 2 && endValue == 2) {
-            //Nach Städten suchen
-
         }
     }
 }

@@ -312,17 +312,17 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
 
-        // Führe eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
+        // Führt eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
         usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean userExists = false;
 
-                // Iteriere über die gefundenen Benutzer
+                // Iteriert über die gefundenen Benutzer
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
 
-                    // Überprüfe, ob das Passwort übereinstimmt
+                    // Überprüft, ob das Passwort übereinstimmt
                     if (user != null && user.getPassword().equals(password)) {
                         userExists = true;
                         break;
@@ -336,7 +336,7 @@ public class DatabaseGlobal {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Fehler beim Lesen der Daten
                 System.out.println("Fehler beim Lesen der Daten: " + databaseError.getMessage());
 
@@ -358,7 +358,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
 
-        // Verweise auf den Benutzer anhand seiner ID und entferne ihn
+        // Verweist auf den Benutzer anhand seiner ID und entfernt ihn
         usersRef.child(userId).removeValue()
                 .addOnSuccessListener(aVoid -> {
                     // Benutzer erfolgreich gelöscht
@@ -417,22 +417,20 @@ public class DatabaseGlobal {
         myRef.child(rideId).setValue(rideMap)
                 .addOnSuccessListener(aVoid -> {
                     // Erfolgreich angelegt
+                    System.out.println("User erfolgreich angelegt");
                 })
                 .addOnFailureListener(e -> {
                     // Fehler beim Anlegen
+                    System.out.println("User wurde nicht angelegt");
                 });
     }
 
     public interface RideCallback {
-        void onRideLoaded(Ride ride);
-        void onRideNotFound();
+        void onSuccessSingleRide(Ride ride);
+        void onNotFound();
         void onFailure(String message);
     }
 
-    public interface RidesByUserCallback {
-        void onRidesLoaded(List<Ride> rides);
-        void onFailure(String message);
-    }
 
 
     public void readRideById(String rideId, final RideCallback callback) {
@@ -443,9 +441,9 @@ public class DatabaseGlobal {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     Ride ride = dataSnapshot.getValue(Ride.class);
-                    callback.onRideLoaded(ride);
+                    callback.onSuccessSingleRide(ride);
                 } else {
-                    callback.onRideNotFound();
+                    callback.onNotFound();
                 }
             }
 
@@ -469,7 +467,7 @@ public class DatabaseGlobal {
                     Ride ride = snapshot.getValue(Ride.class);
                     ridesList.add(ride);
                 }
-                listener.onRidesFound(ridesList);
+                listener.onSuccessRides(ridesList);
             }
 
             @Override
@@ -480,7 +478,7 @@ public class DatabaseGlobal {
     }
 
     public interface OnRidesFoundListener {
-        void onRidesFound(List<Ride> rides);
+        void onSuccessRides(List<Ride> rides);
     }
 
     public CompletableFuture<Ride> readRideFromDatabase(String rideId) {
@@ -509,11 +507,11 @@ public class DatabaseGlobal {
         return future;
     }
 
-    public void findRideByDateTime(String date, String time, OnRideFoundListener listener) {
+    public void findRideByDateTime(String date, String time, OnRidesFoundListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date").equalTo(date).orderByChild("time").equalTo(time);
+        Query query = myRef.orderByChild("date").startAt(date).orderByChild("time").startAt(time);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -525,7 +523,7 @@ public class DatabaseGlobal {
                         rides.add(ride);
                     }
                 }
-                listener.onRideFound(rides);
+                listener.onSuccessRides(rides);
             }
 
             @Override
@@ -535,17 +533,12 @@ public class DatabaseGlobal {
         });
     }
 
-    // Rückruffunktion für die Benachrichtigung über die gefundene Fahrt
-    public interface OnRideFoundListener {
-        void onRideFound(List<Ride> rides);
-    }
-
-    public void findRideByDateTimeAndZips(String date, String time, String startZip, String endZip, OnRideFoundListener listener) {
+    public void findRideByDateTimeAndZips(String date, String time, String startZip, String endZip, OnRidesFoundListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date").equalTo(date)
-                .orderByChild("time").equalTo(time)
+        Query query = myRef.orderByChild("date").startAt(date)
+                .orderByChild("time").startAt(time)
                 .orderByChild("startZip").equalTo(startZip)
                 .orderByChild("endZip").equalTo(endZip);
 
@@ -559,7 +552,7 @@ public class DatabaseGlobal {
                         rides.add(ride);
                     }
                 }
-                listener.onRideFound(rides);
+                listener.onSuccessRides(rides);
             }
 
             @Override
@@ -569,12 +562,12 @@ public class DatabaseGlobal {
         });
     }
 
-    public void findRideByDateTimeAndCities(String date, String time, String startCity, String endCity, OnRideFoundListener listener) {
+    public void findRideByDateTimeAndCities(String date, String time, String startCity, String endCity, OnRidesFoundListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date").equalTo(date)
-                .orderByChild("time").equalTo(time)
+        Query query = myRef.orderByChild("date").startAt(date)
+                .orderByChild("time").startAt(time)
                 .orderByChild("startCity").equalTo(startCity)
                 .orderByChild("endCity").equalTo(endCity);
 
@@ -588,7 +581,7 @@ public class DatabaseGlobal {
                         rides.add(ride);
                     }
                 }
-                listener.onRideFound(rides);
+                listener.onSuccessRides(rides);
             }
 
             @Override

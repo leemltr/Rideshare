@@ -21,8 +21,8 @@ public class RideDatabase {
         DatabaseGlobal databaseGlobal = new DatabaseGlobal();
         databaseGlobal.findRidesByUserId(userId, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
-            public void onRidesFound(List<Ride> rides) {
-                // Hier kannst du die gefundenen Fahrten verwenden
+            public void onSuccessRides(List<Ride> rides) {
+
             }
         });
 
