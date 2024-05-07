@@ -4,7 +4,7 @@
 
         <item android:id="@+id/menu_Rideshare"
             android:icon="@drawable/ic_car_rides"
-            android:title="Rideshare"/>
+            android:title="Neue Fahrt"/>
 
         <item android:id="@+id/menu_profile"
             android:icon="@drawable/ic_profile"

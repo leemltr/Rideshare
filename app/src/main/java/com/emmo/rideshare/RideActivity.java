@@ -2,6 +2,9 @@ package com.emmo.rideshare;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -76,6 +79,19 @@ public class RideActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        MenuHelper.inflateMenu(menu, inflater);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return MenuHelper.handleMenuItemClick(item, this);
+    }
+
 
     private boolean isValidZip(String text) {
         return !text.isEmpty() && text.matches("\\d{5}");
