@@ -16,9 +16,6 @@
             android:name=".DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MenuActivity"
-            android:exported="false" />
-        <activity
             android:name=".myRidesActivity"
             android:exported="false" />
         <activity
