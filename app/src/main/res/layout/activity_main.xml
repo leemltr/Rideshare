@@ -1,58 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        >
+        android:layout_height="match_parent">
 
-        <SearchView
-            android:id="@+id/searchStart"
-            android:layout_width="wrap_content"
+        <include layout="@layout/toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/search_bkg"
-            android:closeIcon="@drawable/ic_close"
-            android:focusable="false"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/searchStart"
-            android:searchHintIcon="@null"
-            android:searchIcon="@drawable/ic_search" />
+            android:orientation="vertical"
+            android:layout_below="@+id/toolbar">
 
-        <SearchView
-            android:id="@+id/searchEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/search_bkg"
-            android:closeIcon="@drawable/ic_close"
-            android:focusable="false"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/searchEnd"
-            android:searchHintIcon="@null"
-            android:searchIcon="@drawable/ic_search" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/linearLayout"/>
+                <SearchView
+                    android:id="@+id/searchStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/search_bkg"
+                    android:closeIcon="@drawable/ic_close"
+                    android:focusable="false"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/searchStart"
+                    android:searchHintIcon="@null"
+                    android:searchIcon="@drawable/ic_search" />
 
-</RelativeLayout>
+                <SearchView
+                    android:id="@+id/searchEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/search_bkg"
+                    android:closeIcon="@drawable/ic_close"
+                    android:focusable="false"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/searchEnd"
+                    android:searchHintIcon="@null"
+                    android:searchIcon="@drawable/ic_search" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerView"
+                android:layout_marginTop="8dp"
+                android:scrollbars="vertical"
+                android:layout_below="@+id/linearLayout"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>
