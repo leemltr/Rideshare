@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class EditProfileActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private EditText vname, nname, email, street, streetnr, city, zip;
+    private EditText vname, nname, street, streetnr, city, zip;
     private String originalVname, originalNname, originalEmail, originalStreet, originalStreetNr, originalCity, originalZip;
     private Button save;
     private FirebaseAuth mAuth;
@@ -42,7 +42,6 @@ public class EditProfileActivity extends AppCompatActivity {
         });
         vname = findViewById(R.id.profile_vname);
         nname = findViewById(R.id.profile_nname);
-        email = findViewById(R.id.profile_email);
         street = findViewById(R.id.profile_address_str);
         streetnr = findViewById(R.id.profile_address_nr);
         zip = findViewById(R.id.profile_address_plz);
@@ -54,7 +53,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         originalVname = vname.getText().toString();
         originalNname = nname.getText().toString();
-        originalEmail = email.getText().toString();
         originalStreet = street.getText().toString();
         originalStreetNr = streetnr.getText().toString();
         originalCity = city.getText().toString();
@@ -62,7 +60,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         vname.addTextChangedListener(createTextWatcher(vname, () -> originalVname = vname.getText().toString()));
         nname.addTextChangedListener(createTextWatcher(nname, () -> originalNname = nname.getText().toString()));
-        email.addTextChangedListener(createTextWatcher(email, () -> originalEmail = email.getText().toString()));
         street.addTextChangedListener(createTextWatcher(street, () -> originalStreet = street.getText().toString()));
         streetnr.addTextChangedListener(createTextWatcher(streetnr, () -> originalStreetNr = streetnr.getText().toString()));
         city.addTextChangedListener(createTextWatcher(city, () -> originalCity = city.getText().toString()));
@@ -108,7 +105,6 @@ public class EditProfileActivity extends AppCompatActivity {
             database.readUserFromDatabase(emailString).thenAccept(user -> {
                 vname.setText(user.getFirstname());
                 nname.setText(user.getLastname());
-                email.setText(user.getEmail());
                 zip.setText(user.getZip());
                 city.setText(user.getCity());
                 street.setText(user.getStreet());
@@ -143,7 +139,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private void updateUser(){
         if (!originalVname.equals(vname.getText().toString()) ||
                 !originalNname.equals(nname.getText().toString()) ||
-                !originalEmail.equals(email.getText().toString()) ||
                 !originalStreet.equals(street.getText().toString()) ||
                 !originalStreetNr.equals(streetnr.getText().toString()) ||
                 !originalCity.equals(city.getText().toString()) ||
@@ -155,9 +150,6 @@ public class EditProfileActivity extends AppCompatActivity {
             }
             if (!originalNname.equals(nname.getText().toString())) {
                 user.setLastname(nname.getText().toString());
-            }
-            if (!originalEmail.equals(email.getText().toString())) {
-                user.setEmail(email.getText().toString());
             }
             if (!originalStreet.equals(street.getText().toString())) {
                 user.setStreet(street.getText().toString());
