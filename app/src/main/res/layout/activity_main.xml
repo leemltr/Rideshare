@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,14 +24,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:id="@+id/linearLayout"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp">
+                android:layout_margin="16dp">
 
                 <SearchView
                     android:id="@+id/searchStart"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/search_bkg"
@@ -41,20 +39,23 @@
                     android:iconifiedByDefault="false"
                     android:queryHint="@string/searchStart"
                     android:searchHintIcon="@null"
-                    android:searchIcon="@drawable/ic_search" />
+                    android:searchIcon="@drawable/ic_search"
+                    android:layout_margin="5dp"/>
 
                 <SearchView
                     android:id="@+id/searchEnd"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="12dp"
                     android:background="@drawable/search_bkg"
                     android:closeIcon="@drawable/ic_close"
                     android:focusable="false"
                     android:iconifiedByDefault="false"
                     android:queryHint="@string/searchEnd"
                     android:searchHintIcon="@null"
-                    android:searchIcon="@drawable/ic_search" />
+                    android:searchIcon="@drawable/ic_search"
+                    android:layout_margin="5dp"/>
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -67,5 +68,4 @@
 
         </LinearLayout>
     </RelativeLayout>
-
 </ScrollView>
