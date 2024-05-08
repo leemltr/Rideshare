@@ -60,13 +60,6 @@ public class EditProfileActivity extends AppCompatActivity {
         originalCity = city.getText().toString();
         originalZip = zip.getText().toString();
 
-        vname.addTextChangedListener(createTextWatcher(vname, () -> originalVname = vname.getText().toString()));
-        nname.addTextChangedListener(createTextWatcher(nname, () -> originalNname = nname.getText().toString()));
-        street.addTextChangedListener(createTextWatcher(street, () -> originalStreet = street.getText().toString()));
-        streetnr.addTextChangedListener(createTextWatcher(streetnr, () -> originalStreetNr = streetnr.getText().toString()));
-        city.addTextChangedListener(createTextWatcher(city, () -> originalCity = city.getText().toString()));
-        zip.addTextChangedListener(createTextWatcher(zip, () -> originalZip = zip.getText().toString()));
-
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,54 +112,47 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    private TextWatcher createTextWatcher(EditText editText, Runnable onChange) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Nicht benötigt
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Nicht benötigt
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                onChange.run();
-            }
-        };
-    }
-
     private void updateUser(){
-        if (!originalVname.equals(vname.getText().toString()) ||
-                !originalNname.equals(nname.getText().toString()) ||
-                !originalStreet.equals(street.getText().toString()) ||
-                !originalStreetNr.equals(streetnr.getText().toString()) ||
-                !originalCity.equals(city.getText().toString()) ||
-                !originalZip.equals(zip.getText().toString())) {
+        System.out.println("ICH BIN HIER khaseföksojghpslkfgoihsajpäflkszjdhgvfpäsldgpvo");
+        if ((originalVname == null || !originalVname.equals(vname.getText().toString())) ||
+                (originalNname == null || !originalNname.equals(nname.getText().toString())) ||
+                (originalStreet == null || !originalStreet.equals(street.getText().toString())) ||
+                (originalStreetNr == null || !originalStreetNr.equals(streetnr.getText().toString())) ||
+                (originalCity == null || !originalCity.equals(city.getText().toString())) ||
+                (originalZip == null || !originalZip.equals(zip.getText().toString()))) {
+            System.out.println("ICH BIN HIER HAHAHAHAHAHAHAHAHAHAHAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHH");
             User user = new User();
             user.setId(id);
-            if (!originalVname.equals(vname.getText().toString())) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if(currentUser != null) {
+                String emailString = currentUser.getEmail();
+                user.setEmail(emailString);
+            }
+            if ((originalVname == null && vname.getText() != null) || !originalVname.equals(vname.getText().toString())) {
                 user.setFirstname(vname.getText().toString());
             }
-            if (!originalNname.equals(nname.getText().toString())) {
+            if ((originalNname == null && nname.getText() != null) || !originalNname.equals(nname.getText().toString())) {
                 user.setLastname(nname.getText().toString());
             }
-            if (!originalStreet.equals(street.getText().toString())) {
+
+            if ((originalStreet == null && street.getText() != null) || !originalStreet.equals(street.getText().toString())) {
                 user.setStreet(street.getText().toString());
             }
-            if (!originalStreetNr.equals(streetnr.getText().toString())) {
+
+            if ((originalStreetNr == null && streetnr.getText() != null) || !originalStreetNr.equals(streetnr.getText().toString())) {
                 user.setStreetnumber(streetnr.getText().toString());
             }
-            if (!originalCity.equals(city.getText().toString())) {
+
+            if ((originalCity == null && city.getText() != null) || !originalCity.equals(city.getText().toString())) {
                 user.setCity(city.getText().toString());
             }
-            if (!originalZip.equals(zip.getText().toString())) {
+
+            if ((originalZip == null && zip.getText() != null) || !originalZip.equals(zip.getText().toString())) {
                 user.setZip(zip.getText().toString());
             }
 
             DatabaseGlobal database = new DatabaseGlobal();
+            System.out.println("ICH BIN HIER BBIIIIIIIIIIIIIIIIIIIIITTTTTTTTTTTTTTTTTCCCCCCCCCCCHHHHHHHHHHHH22222222222222222222");
             database.updateUserInDatabase(user, new DatabaseGlobal.OnUserUpdateListener() {
                 @Override
                 public void onUserUpdateSuccess() {

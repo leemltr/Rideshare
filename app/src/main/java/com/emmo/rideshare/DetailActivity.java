@@ -83,6 +83,7 @@ public class DetailActivity extends AppCompatActivity {
                 String timeValue = dateTimeParts[1];
                 date.setText(dateValue);
                 time.setText(timeValue);
+                email.setText(ride.getEmail());
             }
         }
         loadUserData();
@@ -131,19 +132,16 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void loadUserData(){
-        FirebaseUser currentUser = mAuth.getCurrentUser();
         DatabaseGlobal database = new DatabaseGlobal();
-        if(currentUser != null) {
-            String emailString = currentUser.getEmail();
-            email.setText(emailString);
-            database.readUserFromDatabase(emailString).thenAccept(user -> {
-                fname.setText(user.getFirstname());
-                lname.setText(user.getLastname());
-            }).exceptionally(ex -> {
-                ex.printStackTrace();
-                return null;
-            });
+        String emailString = email.getText().toString();
+        database.readUserFromDatabase(emailString).thenAccept(user -> {
+            fname.setText(user.getFirstname());
+            lname.setText(user.getLastname());
+        }).exceptionally(ex -> {
+            ex.printStackTrace();
+            return null;
+        });
 
-        }
+
     }
 }
