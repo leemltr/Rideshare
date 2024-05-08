@@ -43,15 +43,18 @@ public class LoginActivity extends AppCompatActivity {
         save.setOnClickListener(v -> {
             String email = emailText.getText().toString();
             String password = passwordText.getText().toString();
-            boolean login = checkLogin(email, password);
+            signInUser(email, password);
+            //boolean login = checkLogin(email, password);
+            /*
             if(login){
-                signInUser(email, password);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(LoginActivity.this, "Email oder Password ist falsch", Toast.LENGTH_SHORT).show();
             }
+
+             */
         });
 
         register1.setOnClickListener(v -> {
@@ -80,10 +83,13 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Passwort oder Email ist falsch", Toast.LENGTH_SHORT).show();
                         updateUI();
                     }
                 });

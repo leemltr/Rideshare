@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private Toolbar toolbar;
     private SearchView searchStart, searchEnd;
-    private int startValue=0, endValue=0;
+    private int startValue, endValue;
     private FirebaseAuth mAuth;
     private ArrayList<Ride> ridesList = new ArrayList<>();
 
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        startValue=0;
+        endValue=0;
         getRidesList();
 
     }
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             database.findRideByDateTime(formattedDate, formattedTime, new DatabaseGlobal.OnRidesFoundListener() {
                 @Override
                 public void onSuccessRides(List<Ride> rides) {
-                    ridesList.addAll(rides);
+                    updateRecyclerView(rides);
                 }
             });
         } else if(startValue==1 && endValue ==1) {
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             database.findRideByDateTimeAndZips(formattedDate, formattedTime, startZip, endZip, new DatabaseGlobal.OnRidesFoundListener() {
                 @Override
                 public void onSuccessRides(List<Ride> rides) {
-                    ridesList.addAll(rides);
+                    updateRecyclerView(rides);
                 }
             });
         } else if(startValue==2 && endValue ==2) {
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             database.findRideByDateTimeAndCities(formattedDate, formattedTime, startCity, endCity, new DatabaseGlobal.OnRidesFoundListener() {
                 @Override
                 public void onSuccessRides(List<Ride> rides) {
-                    ridesList.addAll(rides);
+                    updateRecyclerView(rides);
                 }
             });
         }
@@ -197,6 +199,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Bitte nur eine Stadt oder eine PLZ eingeben", Toast.LENGTH_SHORT).show();
             return 0;
         }
+    }
+
+    private void updateRecyclerView(List<Ride> newSearchResults) {
+        ridesList.clear();
+        ridesList.addAll(newSearchResults);
+        adapter.notifyDataSetChanged();
     }
 }
 

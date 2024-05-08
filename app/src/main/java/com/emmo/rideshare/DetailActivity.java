@@ -1,7 +1,13 @@
 package com.emmo.rideshare;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView startStreet, startNumber, startCity, startZip, endStreet, endNumber, endCity, endZip, notes, date, time, fname, lname, email;
     private FirebaseAuth mAuth;
+    private Button googleMaps;
 
     private String decodeEmail(String encodedEmail) {
         String decodedEmail = encodedEmail.replace("-dot-", ".")
@@ -56,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         fname = findViewById(R.id.detail_vname);
         lname = findViewById(R.id.detail_nname);
         email = findViewById(R.id.detail_email);
+        googleMaps = findViewById(R.id.detail_btngooglemaps);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -78,6 +86,26 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
         loadUserData();
+
+        googleMaps.setOnClickListener(v -> {
+            String startStreetString = startStreet.getText().toString();
+            String startNumberString = startNumber.getText().toString();
+            String startCityString = startCity.getText().toString();
+            String startZipString = startZip.getText().toString();
+            String startAddress = startStreetString + " " + startNumberString + ", " + startCityString + ", " + startZipString;
+
+            String endStreetString = endStreet.getText().toString();
+            String endNumberString = endNumber.getText().toString();
+            String endCityString = endCity.getText().toString();
+            String endZipString = endZip.getText().toString();
+            String endAddress = endStreetString + " " + endNumberString + ", " + endCityString + ", " + endZipString;
+
+            Uri uri = Uri.parse("https://www.google.com/maps/dir/" + startAddress + "/" + endAddress);
+            Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+            intent2.setPackage("com.google.android.apps.maps");
+            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent2);
+        });
     }
 
     @Override
@@ -88,6 +116,18 @@ public class DetailActivity extends AppCompatActivity {
             Intent intent = new Intent(DetailActivity.this, LoginActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        MenuHelper.inflateMenu(menu, inflater);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return MenuHelper.handleMenuItemClick(item, this);
     }
 
     private void loadUserData(){

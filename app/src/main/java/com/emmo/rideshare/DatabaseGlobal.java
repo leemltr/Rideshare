@@ -365,7 +365,7 @@ public class DatabaseGlobal {
 
         Map<String, Object> rideMap = new HashMap<>();
         rideMap.put("id", rideId);
-        rideMap.put("idPerson", newRide.getIdPerson());
+        rideMap.put("email", newRide.getEmail());
         rideMap.put("startZip", newRide.getStartZip());
         rideMap.put("startCity", newRide.getStartCity());
         rideMap.put("startStreet", newRide.getStartStreet());
@@ -428,11 +428,11 @@ public class DatabaseGlobal {
         });
     }
 
-    public void findRidesByUserId(String userId, OnRidesFoundListener listener) {
+    public void findRidesByUserId(String email, OnRidesFoundListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ridesRef = database.getReference("ride");
 
-        ridesRef.orderByChild("idPerson").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        ridesRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Ride> ridesList = new ArrayList<>();
@@ -643,10 +643,10 @@ public class DatabaseGlobal {
                 });
     }
 
-    public void deleteRidesByUserIdFromDatabase(int userId) {
+    public void deleteRidesByEmailFromDatabase(String email) {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride");
 
-        Query query = ridesRef.orderByChild("idPerson").equalTo(userId);
+        Query query = ridesRef.orderByChild("email").equalTo(email);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

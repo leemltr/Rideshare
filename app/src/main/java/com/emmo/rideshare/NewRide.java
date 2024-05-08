@@ -1,7 +1,7 @@
 package com.emmo.rideshare;
 
 public class NewRide {
-    private String idPerson;
+    private String email;
     private String startZip;
     private String startCity;
     private String startStreet;
@@ -16,12 +16,12 @@ public class NewRide {
     private String time;
     private String notes;
 
-    public String getIdPerson() {
-        return idPerson;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdPerson(String idPerson) {
-        this.idPerson = idPerson;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getStartZip() {

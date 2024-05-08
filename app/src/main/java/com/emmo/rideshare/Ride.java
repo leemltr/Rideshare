@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 public class Ride implements Parcelable {
     private String id;
-    private String idPerson;
+    private String email;
     private String startZip;
     private String startCity;
     private String startStreet;
@@ -29,12 +29,12 @@ public class Ride implements Parcelable {
         this.id = id;
     }
 
-    public String getIdPerson() {
-        return idPerson;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdPerson(String idPerson) {
-        this.idPerson = idPerson;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getStartZip() {
@@ -144,7 +144,7 @@ public class Ride implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(idPerson);
+        dest.writeString(email);
         dest.writeString(startCity);
         dest.writeString(startZip);
         dest.writeString(startStreet);
@@ -161,7 +161,7 @@ public class Ride implements Parcelable {
 
     protected Ride(Parcel in) {
         id = in.readString();
-        idPerson = in.readString();
+        email = in.readString();
         startCity = in.readString();
         startZip = in.readString();
         startStreet = in.readString();

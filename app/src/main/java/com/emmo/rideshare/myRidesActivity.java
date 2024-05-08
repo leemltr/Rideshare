@@ -24,7 +24,7 @@ import java.util.List;
 public class myRidesActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private AdapterView adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseAuth mAuth;
     private ArrayList<Ride> ridesList = new ArrayList<>();
@@ -39,25 +39,24 @@ public class myRidesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.recyclerView);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        getUserId();
+        getRidesList();
 
         ArrayList<Ride> data = prepareData();
         adapter = new AdapterView(data);
-        adapter = new AdapterView(data, ride -> {
-            /*
-            Intent intent = new Intent(myRidesActivity.this, DetailActivity.class);
-            intent.putExtra("ride", (CharSequence) ride);
-            startActivity(intent);
-
-             */
-        });
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((OnItemClickListener) ride -> {
+            Intent intent = new Intent(myRidesActivity.this, DetailActivity.class);
+            intent.putExtra("ride", ride); // Ride-Objekt übergeben
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -88,26 +87,11 @@ public class myRidesActivity extends AppCompatActivity {
         return ridesList;
     }
 
-    private void getUserId() {
+    private void getRidesList(){
         DatabaseGlobal database = new DatabaseGlobal();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailString = currentUser.getEmail();
-        database.getUserIdFromEmail(emailString, new DatabaseGlobal.UserIdCallback() {
-            @Override
-            public void onUserIdReceived(String userId) {
-                getRidesList(userId);
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-
-            }
-        });
-    }
-
-    private void getRidesList(String userId){
-        DatabaseGlobal database = new DatabaseGlobal();
-        database.findRidesByUserId(userId, new DatabaseGlobal.OnRidesFoundListener() {
+        database.findRidesByUserId(emailString, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
             public void onSuccessRides(List<Ride> rides) {
                 ridesList.addAll(rides);
