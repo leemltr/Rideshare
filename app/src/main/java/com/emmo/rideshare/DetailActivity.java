@@ -26,16 +26,6 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button googleMaps;
 
-    private String decodeEmail(String encodedEmail) {
-        String decodedEmail = encodedEmail.replace("-dot-", ".")
-                .replace("-hash-", "#")
-                .replace("-dollar-", "$")
-                .replace("-leftBracket-", "[")
-                .replace("-rightBracket-", "]");
-
-        return decodedEmail;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +131,5 @@ public class DetailActivity extends AppCompatActivity {
             ex.printStackTrace();
             return null;
         });
-
-
     }
 }
