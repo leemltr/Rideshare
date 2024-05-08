@@ -226,52 +226,30 @@ public class DatabaseGlobal {
         DatabaseReference usersRef = database.getReference("users");
         String userIdString = user.getId();
 
-        usersRef.child(userIdString).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Alte Benutzerdaten vorhanden
-                    User oldUser = dataSnapshot.getValue(User.class);
-                    assert oldUser != null;
-                    if (user.getPassword() != null) {
-                        oldUser.setPassword(user.getPassword());
-                    }
-                    if (user.getFirstname() != null) {
-                        oldUser.setFirstname(user.getFirstname());
-                    }
-                    if (user.getLastname() != null) {
-                        oldUser.setLastname(user.getLastname());
-                    }
-                    if (user.getHochschule() != null) {
-                        oldUser.setHochschule(user.getHochschule());
-                    }
-                    if (user.getZip() != null) {
-                        oldUser.setZip(user.getZip());
-                    }
-                    if (user.getCity() != null) {
-                        oldUser.setCity(user.getCity());
-                    }
-                    if (user.getStreet() != null) {
-                        oldUser.setStreet(user.getStreet());
-                    }
-                    if (user.getStreetnumber() != null) {
-                        oldUser.setStreetnumber(user.getStreetnumber());
-                    }
+        Map<String, Object> updateValues = new HashMap<>();
 
-                    usersRef.child(userIdString).setValue(oldUser)
-                            .addOnSuccessListener(aVoid -> listener.onUserUpdateSuccess())
-                            .addOnFailureListener(e -> listener.onUserUpdateFailure());
-                } else {
-                    // Der Benutzer mit der angegebenen userId existiert nicht
-                    System.out.println("Dieser User existiert nicht");
-                }
-            }
+        if (user.getFirstname() != null) {
+            updateValues.put("firstname", user.getFirstname());
+        }
+        if (user.getLastname() != null) {
+            updateValues.put("lastname", user.getLastname());
+        }
+        if (user.getStreet() != null) {
+            updateValues.put("street", user.getStreet());
+        }
+        if (user.getStreetnumber() != null) {
+            updateValues.put("streetnumber", user.getStreetnumber());
+        }
+        if (user.getCity() != null) {
+            updateValues.put("city", user.getCity());
+        }
+        if (user.getZip() != null) {
+            updateValues.put("zip", user.getZip());
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
-            }
-        });
+        usersRef.child(userIdString).updateChildren(updateValues)
+                .addOnSuccessListener(aVoid -> listener.onUserUpdateSuccess())
+                .addOnFailureListener(e -> listener.onUserUpdateFailure());
     }
 
     public void checkUserCredentials(String email, String password, OnCheckUserListener listener) {
@@ -428,7 +406,7 @@ public class DatabaseGlobal {
         });
     }
 
-    public void findRidesByUserId(String email, OnRidesFoundListener listener) {
+    public void findRidesByEmail(String email, OnRidesFoundListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ridesRef = database.getReference("ride");
 

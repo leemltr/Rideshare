@@ -19,7 +19,7 @@ public class RideDatabase {
 
     public void findRidebyId(String userId){
         DatabaseGlobal databaseGlobal = new DatabaseGlobal();
-        databaseGlobal.findRidesByUserId(userId, new DatabaseGlobal.OnRidesFoundListener() {
+        databaseGlobal.findRidesByEmail(userId, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
             public void onSuccessRides(List<Ride> rides) {
 

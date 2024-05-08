@@ -91,7 +91,7 @@ public class myRidesActivity extends AppCompatActivity {
         DatabaseGlobal database = new DatabaseGlobal();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String emailString = currentUser.getEmail();
-        database.findRidesByUserId(emailString, new DatabaseGlobal.OnRidesFoundListener() {
+        database.findRidesByEmail(emailString, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
             public void onSuccessRides(List<Ride> rides) {
                 updateRecyclerView(rides);
