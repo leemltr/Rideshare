@@ -49,7 +49,7 @@ public class EditProfileActivity extends AppCompatActivity {
         zip = findViewById(R.id.profile_address_plz);
         city = findViewById(R.id.profile_address_city);
         save = findViewById(R.id.update_btn_save);
-        cancel = findViewById(R.id.btnCancel);
+        cancel = findViewById(R.id.update_btn_cancel);
 
         mAuth = FirebaseAuth.getInstance();
         loadUser();
