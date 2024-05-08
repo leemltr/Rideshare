@@ -45,7 +45,6 @@ public class DatabaseGlobal {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", userId);
         userMap.put("email", encodeEmail(newUser.getEmail()));
-        userMap.put("password", newUser.getPassword());
         userMap.put("firstname", newUser.getFirstname());
         userMap.put("lastname", newUser.getLastname());
         if (newUser.getHochschule() != null) {
@@ -87,10 +86,8 @@ public class DatabaseGlobal {
         usersRef.orderByChild("email").equalTo(encodeEmail(userEmail)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Überprüft, ob ein Benutzer mit dieser E-Mail existiert
                 boolean userExists = dataSnapshot.exists();
 
-                // Rückgabe des Ergebnisses über das Listener-Interface
                 if (listener != null) {
                     listener.onUserExists(userExists);
                 } else {
@@ -100,10 +97,8 @@ public class DatabaseGlobal {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
                 System.out.println("Fehler beim Lesen der Daten: " + databaseError.getMessage());
 
-                // Rückgabe des Fehlerfalls über das Listener-Interface
                 if (listener != null) {
                     listener.onUserExists(false);
                 }
@@ -251,52 +246,6 @@ public class DatabaseGlobal {
                 .addOnSuccessListener(aVoid -> listener.onUserUpdateSuccess())
                 .addOnFailureListener(e -> listener.onUserUpdateFailure());
     }
-
-    public void checkUserCredentials(String email, String password, OnCheckUserListener listener) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("users");
-
-        // Führt eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
-        usersRef.orderByChild("email").equalTo(encodeEmail(email)).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean userExists = false;
-
-                // Iteriert über die gefundenen Benutzer
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-
-                    // Überprüft, ob das Passwort übereinstimmt
-                    if (user != null && user.getPassword().equals(password)) {
-                        userExists = true;
-                        break;
-                    }
-                }
-
-                // Rückgabe des Ergebnisses über das Listener-Interface
-                if (listener != null) {
-                    listener.onCheckUser(userExists);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
-                System.out.println("Fehler beim Lesen der Daten: " + databaseError.getMessage());
-
-                // Rückgabe des Fehlerfalls über das Listener-Interface
-                if (listener != null) {
-                    listener.onCheckUser(false);
-                }
-            }
-        });
-    }
-
-    // Listener-Interface für die Rückgabe des Ergebnisses
-    public interface OnCheckUserListener {
-        void onCheckUser(boolean userExists);
-    }
-
 
     public void deleteUserFromDatabase(String userId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

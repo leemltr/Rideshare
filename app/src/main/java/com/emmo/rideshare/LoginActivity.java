@@ -72,11 +72,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public boolean checkLogin(String email, String password){
-        UserDatabase userDatabase = new UserDatabase();
-        return userDatabase.checkUser(email, password);
-    }
-
     public void signInUser(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {

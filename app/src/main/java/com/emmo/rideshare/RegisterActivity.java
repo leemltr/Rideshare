@@ -145,7 +145,6 @@ public class RegisterActivity extends AppCompatActivity {
         user.setFirstname(firstname);
         user.setLastname(lastname);
         user.setEmail(email);
-        user.setPassword(pword);
 
         DatabaseGlobal database = new DatabaseGlobal();
         database.writeToDatabaseUser(user, new DatabaseGlobal.OnUserSavedListener() {
