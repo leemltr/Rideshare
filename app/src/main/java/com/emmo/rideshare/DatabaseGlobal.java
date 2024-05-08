@@ -27,6 +27,15 @@ public class DatabaseGlobal {
     *
      */
 
+    private String encodeEmail(String email) {
+        String encodedEmail = email.replace(".", "-dot-")
+                .replace("#", "-hash-")
+                .replace("$", "-dollar-")
+                .replace("[", "-leftBracket-")
+                .replace("]", "-rightBracket-");
+        return encodedEmail;
+    }
+
     public void writeToDatabaseUser(NewUser newUser, OnUserSavedListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
@@ -35,7 +44,7 @@ public class DatabaseGlobal {
 
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", userId);
-        userMap.put("email", newUser.getEmail());
+        userMap.put("email", encodeEmail(newUser.getEmail()));
         userMap.put("password", newUser.getPassword());
         userMap.put("firstname", newUser.getFirstname());
         userMap.put("lastname", newUser.getLastname());
@@ -58,7 +67,7 @@ public class DatabaseGlobal {
         assert userId != null;
         myRef.child(userId).setValue(userMap)
                 .addOnSuccessListener(aVoid -> {
-                    userEmailsRef.child(newUser.getEmail()).setValue(userId);
+                    userEmailsRef.child(encodeEmail(newUser.getEmail())).setValue(userId);
                     listener.onUserSaved();
                 })
                 .addOnFailureListener(e -> {
@@ -75,7 +84,7 @@ public class DatabaseGlobal {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         // Führt eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
-        usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.orderByChild("email").equalTo(encodeEmail(userEmail)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Überprüft, ob ein Benutzer mit dieser E-Mail existiert
@@ -116,7 +125,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
 
-        usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.orderByChild("email").equalTo(encodeEmail(userEmail)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -170,7 +179,7 @@ public class DatabaseGlobal {
         DatabaseReference userEmailsRef = FirebaseDatabase.getInstance().getReference("userEmails");
 
         // Benutzer-ID anhand der E-Mail-Adresse suchen
-        userEmailsRef.child(email).addListenerForSingleValueEvent(new ValueEventListener() {
+        userEmailsRef.child(encodeEmail(email)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String userId = dataSnapshot.getValue(String.class);
@@ -224,9 +233,6 @@ public class DatabaseGlobal {
                     // Alte Benutzerdaten vorhanden
                     User oldUser = dataSnapshot.getValue(User.class);
                     assert oldUser != null;
-                    if (user.getEmail() != null) {
-                        oldUser.setEmail(user.getEmail());
-                    }
                     if (user.getPassword() != null) {
                         oldUser.setPassword(user.getPassword());
                     }
@@ -273,7 +279,7 @@ public class DatabaseGlobal {
         DatabaseReference usersRef = database.getReference("users");
 
         // Führt eine Abfrage aus, um den Benutzer mit der angegebenen E-Mail-Adresse zu finden
-        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.orderByChild("email").equalTo(encodeEmail(email)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean userExists = false;
@@ -552,9 +558,6 @@ public class DatabaseGlobal {
         });
     }
 
-
-
-    //Sinnvoll NewRide statt Ride zu benutzen?
     public void updateRideInDatabase(String rideId, NewRide updatedRide) {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
 
@@ -598,11 +601,9 @@ public class DatabaseGlobal {
                     if (updatedRide.getEndName() != null) {
                         oldRide.setEndName(updatedRide.getEndName());
                     }
-                    if (updatedRide.getDate() != null) {
-                        oldRide.setDate(updatedRide.getDate());
-                    }
-                    if (updatedRide.getTime() != null) {
-                        oldRide.setTime(updatedRide.getTime());
+                    if (updatedRide.getDate() != null && updatedRide.getTime() != null) {
+                        String dateTime = updatedRide.getDate() + "_" + updatedRide.getTime();
+                        oldRide.setDate_time(dateTime);
                     }
                     if (updatedRide.getNotes() != null) {
                         oldRide.setNotes(updatedRide.getNotes());

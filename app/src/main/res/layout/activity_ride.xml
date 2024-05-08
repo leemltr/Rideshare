@@ -159,20 +159,20 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/notes"
+            android:id="@+id/time"
             android:textSize="24sp"
-            android:hint="text"
-            android:inputType="text"
+            android:hint="Zeit"
+            android:inputType="time"
             android:layout_below="@id/date"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/time"
+            android:id="@+id/notes"
             android:textSize="24sp"
             android:hint="Notizen"
-            android:inputType="time"
-            android:layout_below="@+id/notes"/>
+            android:inputType="text"
+            android:layout_below="@+id/time"/>
 
         <Button
             android:layout_width="match_parent"
@@ -180,7 +180,7 @@
             android:id="@+id/btn_newRide"
             android:text="Neue Fahrt anlegen"
             android:textSize="24sp"
-            android:layout_below="@id/time"
+            android:layout_below="@id/notes"
             android:layout_marginTop="10dp"/>
 
         <Button

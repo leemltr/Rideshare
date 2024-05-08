@@ -128,7 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
             database.readUserFromDatabase(emailString).thenAccept(user -> {
                 vname.setText(user.getFirstname());
                 nname.setText(user.getLastname());
-                email.setText(user.getEmail());
+                email.setText(emailString);
                 zip.setText(user.getZip());
                 city.setText(user.getCity());
                 street.setText(user.getStreet());

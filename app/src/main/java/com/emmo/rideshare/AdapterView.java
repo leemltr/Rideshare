@@ -29,6 +29,10 @@ public class AdapterView extends RecyclerView.Adapter<AdapterView.MyViewHolder> 
         }
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public AdapterView(ArrayList<Ride> mData) {
         this.mData = mData;
     }
@@ -48,11 +52,14 @@ public class AdapterView extends RecyclerView.Adapter<AdapterView.MyViewHolder> 
                 listener.onItemClick(ride);
             }
         });
+        String[] dateTimeParts = ride.getDate_time().split("_");
+        String date = dateTimeParts[0];
+        String time = dateTimeParts[1];
         // Hier setzen Sie die Daten für jedes TextView entsprechend Ihrer Ride-Klasse
         holder.recTo.setText(ride.getStartCity());
         holder.recFrom.setText(ride.getEndCity());
-        holder.recTime.setText(ride.getTime());
-        holder.recDate.setText(ride.getDate());
+        holder.recTime.setText(time);
+        holder.recDate.setText(date);
     }
 
     @Override
