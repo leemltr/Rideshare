@@ -55,9 +55,17 @@ public class AdapterView extends RecyclerView.Adapter<AdapterView.MyViewHolder> 
         String[] dateTimeParts = ride.getDate_time().split("_");
         String date = dateTimeParts[0];
         String time = dateTimeParts[1];
-        // Hier setzen Sie die Daten für jedes TextView entsprechend Ihrer Ride-Klasse
-        holder.recTo.setText(ride.getStartCity());
-        holder.recFrom.setText(ride.getEndCity());
+
+        if (ride.getStartName() != null && !ride.getStartName().isEmpty()) {
+            holder.recTo.setText(ride.getStartName());
+        } else {
+            holder.recTo.setText(ride.getStartCity());
+        }
+        if (ride.getEndName() != null && !ride.getEndName().isEmpty()) {
+            holder.recFrom.setText(ride.getEndName());
+        } else {
+            holder.recFrom.setText(ride.getEndCity());
+        }
         holder.recTime.setText(time);
         holder.recDate.setText(date);
     }
