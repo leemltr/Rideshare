@@ -111,64 +111,6 @@ public class DatabaseGlobal {
         void onUserExists(boolean userExists);
     }
 
-    public interface UserIdCallback {
-        void onUserIdReceived(String userId);
-        void onFailure(String errorMessage);
-    }
-
-    public void getUserIdFromEmail(String userEmail, UserIdCallback callback) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("users");
-
-        usersRef.orderByChild("email").equalTo(encodeEmail(userEmail)).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        String userId = user.getId();
-                        callback.onUserIdReceived(userId);
-                        return; // Beendet die Schleife nach dem Finden des Benutzers
-                    }
-                }
-                // Kein Benutzer mit der angegebenen E-Mail-Adresse gefunden
-                callback.onFailure("Benutzer mit E-Mail-Adresse nicht gefunden");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
-                callback.onFailure(databaseError.getMessage());
-            }
-        });
-    }
-
-    public CompletableFuture<User> readUserFromDatabaseById(String userId) {
-        CompletableFuture<User> future = new CompletableFuture<>();
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("users");
-
-        usersRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                if (user != null) {
-                    future.complete(user);
-                } else {
-                    future.completeExceptionally(new RuntimeException("Benutzer mit dieser ID nicht gefunden"));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
-            }
-        });
-
-        return future;
-    }
-
     public CompletableFuture<User> readUserFromDatabase(String email) {
         CompletableFuture<User> future = new CompletableFuture<>();
         DatabaseReference userEmailsRef = FirebaseDatabase.getInstance().getReference("userEmails");
@@ -264,7 +206,7 @@ public class DatabaseGlobal {
     }
 
 
-
+    //NICHT IN BENUTZUNG
     public void deleteUserFromDatabase(String userId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
