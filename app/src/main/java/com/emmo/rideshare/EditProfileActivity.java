@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class EditProfileActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText vname, nname, street, streetnr, city, zip;
-    private String originalVname, originalNname, originalEmail, originalStreet, originalStreetNr, originalCity, originalZip;
+    private String originalVname, originalNname, originalStreet, originalStreetNr, originalCity, originalZip;
     private Button save;
     private FirebaseAuth mAuth;
     private String id;

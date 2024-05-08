@@ -36,6 +36,8 @@ public class RideActivity extends AppCompatActivity {
             return insets;
         });
         mAuth = FirebaseAuth.getInstance();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         startName = findViewById(R.id.startName);
         startCity = findViewById(R.id.start);
@@ -56,7 +58,7 @@ public class RideActivity extends AppCompatActivity {
 
         newRide.setOnClickListener(view -> {
             if (validateFields()) {
-                saveRide();
+                getUserId();
             } else {
                 // Es gibt ungültige Eingaben, zeigen Sie eine Fehlermeldung an
                 Toast.makeText(RideActivity.this, "Bitte überprüfen Sie Ihre Eingaben", Toast.LENGTH_SHORT).show();
@@ -166,7 +168,7 @@ public class RideActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private void saveRide(){
+    private void saveRide(String idPerson){
         NewRide ride = new NewRide();
         ride.setStartZip(startZip.getText().toString());
         ride.setStartCity(startCity.getText().toString());
@@ -181,6 +183,7 @@ public class RideActivity extends AppCompatActivity {
         ride.setNotes(notes.getText().toString());
         ride.setDate(date.getText().toString());
         ride.setTime(time.getText().toString());
+        ride.setIdPerson(idPerson);
 
         DatabaseGlobal database = new DatabaseGlobal();
         database.writeToDatabaseRide(ride, new DatabaseGlobal.OnRideSaveListener() {
@@ -193,6 +196,23 @@ public class RideActivity extends AppCompatActivity {
             @Override
             public void onFailure() {
                 Toast.makeText(RideActivity.this, "Fahrt wurde nicht gespeichert", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getUserId(){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String emailString = currentUser.getEmail();
+        DatabaseGlobal database = new DatabaseGlobal();
+        database.getUserIdFromEmail(emailString, new DatabaseGlobal.UserIdCallback() {
+            @Override
+            public void onUserIdReceived(String userId) {
+                saveRide(userId);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
             }
         });
     }

@@ -1,8 +1,13 @@
 package com.emmo.rideshare;
 
-public class Ride {
-    private int id;
-    private int idUser;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Ride implements Parcelable {
+    private String id;
+    private String idPerson;
     private String startZip;
     private String startCity;
     private String startStreet;
@@ -16,20 +21,20 @@ public class Ride {
     private String date_time;
     private String notes;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public String getIdPerson() {
+        return idPerson;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIdPerson(String idPerson) {
+        this.idPerson = idPerson;
     }
 
     public String getStartZip() {
@@ -127,4 +132,59 @@ public class Ride {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public Ride() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(idPerson);
+        dest.writeString(startCity);
+        dest.writeString(startZip);
+        dest.writeString(startStreet);
+        dest.writeString(startName);
+        dest.writeString(startNumber);
+        dest.writeString(endCity);
+        dest.writeString(endZip);
+        dest.writeString(endStreet);
+        dest.writeString(endName);
+        dest.writeString(endNumber);
+        dest.writeString(date_time);
+        dest.writeString(notes);
+    }
+
+    protected Ride(Parcel in) {
+        id = in.readString();
+        idPerson = in.readString();
+        startCity = in.readString();
+        startZip = in.readString();
+        startStreet = in.readString();
+        startName = in.readString();
+        startNumber = in.readString();
+        endCity = in.readString();
+        endZip = in.readString();
+        endStreet = in.readString();
+        endName = in.readString();
+        endNumber = in.readString();
+        date_time = in.readString();
+        notes = in.readString();
+    }
+
+    public static final Creator<Ride> CREATOR = new Creator<Ride>() {
+        @Override
+        public Ride createFromParcel(Parcel in) {
+            return new Ride(in);
+        }
+
+        @Override
+        public Ride[] newArray(int size) {
+            return new Ride[size];
+        }
+    };
 }

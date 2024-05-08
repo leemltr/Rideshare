@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((OnItemClickListener) ride -> {
             Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra("ride", (CharSequence) ride); // Ride-Objekt übergeben
+            intent.putExtra("ride", ride); // Ride-Objekt übergeben
             startActivity(intent);
         });
 

@@ -19,6 +19,16 @@ public class DetailActivity extends AppCompatActivity {
     private TextView startStreet, startNumber, startCity, startZip, endStreet, endNumber, endCity, endZip, notes, date, time, fname, lname, email;
     private FirebaseAuth mAuth;
 
+    private String decodeEmail(String encodedEmail) {
+        String decodedEmail = encodedEmail.replace("-dot-", ".")
+                .replace("-hash-", "#")
+                .replace("-dollar-", "$")
+                .replace("-leftBracket-", "[")
+                .replace("-rightBracket-", "]");
+
+        return decodedEmail;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +36,12 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.detail), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        mAuth = FirebaseAuth.getInstance();
         startStreet = findViewById(R.id.detail_street_von);
         startNumber = findViewById(R.id.detail_hnr_von);
         startCity = findViewById(R.id.detail_city_von);
