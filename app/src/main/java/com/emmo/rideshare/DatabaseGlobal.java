@@ -291,30 +291,6 @@ public class DatabaseGlobal {
         void onFailure(String message);
     }
 
-
-
-    public void readRideById(String rideId, final RideCallback callback) {
-        DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
-
-        ridesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Ride ride = dataSnapshot.getValue(Ride.class);
-                    callback.onSuccessSingleRide(ride);
-                } else {
-                    callback.onNotFound();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Fehler beim Lesen der Daten
-                callback.onFailure(databaseError.getMessage());
-            }
-        });
-    }
-
     public void findRidesByEmail(String email, OnRidesFoundListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ridesRef = database.getReference("ride");
@@ -339,32 +315,6 @@ public class DatabaseGlobal {
 
     public interface OnRidesFoundListener {
         void onSuccessRides(List<Ride> rides);
-    }
-
-    public CompletableFuture<Ride> readRideFromDatabase(String rideId) {
-        CompletableFuture<Ride> future = new CompletableFuture<>();
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ridesRef = database.getReference("ride");
-
-        ridesRef.child(rideId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Ride ride = dataSnapshot.getValue(Ride.class);
-                if (ride != null) {
-                    future.complete(ride);
-                } else {
-                    future.completeExceptionally(new RuntimeException("Ride mit dieser ID nicht gefunden"));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                future.completeExceptionally(new RuntimeException(databaseError.getMessage()));
-            }
-        });
-
-        return future;
     }
 
     public void findRideByDateTime(String date, String time, OnRidesFoundListener listener) {
