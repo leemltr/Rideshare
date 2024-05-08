@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.inputPassword2);
         Button save = findViewById(R.id.btnLogin);
         TextView register1 = findViewById(R.id.textView3);
+        TextView register2 = findViewById(R.id.register);
 
         save.setOnClickListener(v -> {
             String email = emailText.getText().toString();
@@ -54,6 +55,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         register1.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        register2.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
             finish();

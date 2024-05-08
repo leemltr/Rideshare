@@ -41,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
         endZip = findViewById(R.id.detail_zip_nach);
         date = findViewById(R.id.detail_date);
         time = findViewById(R.id.detail_time);
+        notes = findViewById(R.id.detail_notes);
         fname = findViewById(R.id.detail_vname);
         lname = findViewById(R.id.detail_nname);
         email = findViewById(R.id.detail_email);
