@@ -131,19 +131,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_address_plz" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_profile_lin"
+            app:layout_constraintTop_toBottomOf="@id/profile_address_city"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
             <Button
-                android:id="@+id/update_btn"
-                android:layout_width="150dp"
+                android:id="@+id/update_btn_cancel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="14dp"
+                android:text="Abbruch"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:id="@+id/update_btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/update"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_address_city"
-                app:layout_constraintVertical_bias="0.3"/>
+                android:layout_marginStart="10dp"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
