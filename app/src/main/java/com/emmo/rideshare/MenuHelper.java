@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MenuHelper {
     public static void inflateMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
@@ -32,6 +34,7 @@ public class MenuHelper {
             context.startActivity(intent);
             return true;
         } else if (id == R.id.menu_logout) {
+            FirebaseAuth.getInstance().signOut();
             intent = new Intent(context, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear back stack
             context.startActivity(intent);
