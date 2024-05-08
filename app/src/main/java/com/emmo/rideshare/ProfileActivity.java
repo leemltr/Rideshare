@@ -54,14 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadUser();
 
-        setDoubleTapListener(vname);
-        setDoubleTapListener(nname);
-        setDoubleTapListener(email);
-        setDoubleTapListener(street);
-        setDoubleTapListener(streetnr);
-        setDoubleTapListener(zip);
-        setDoubleTapListener(city);
-
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,26 +92,6 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void setDoubleTapListener(TextView textView) {
-        textView.setOnTouchListener(new View.OnTouchListener() {
-            private final GestureDetector gestureDetector = new GestureDetector(ProfileActivity.this, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onDoubleTap(@NonNull MotionEvent e) {
-                    // Öffne die gewünschte Aktivität hier
-                    Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-            });
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
     }
 
     public void loadUser(){
