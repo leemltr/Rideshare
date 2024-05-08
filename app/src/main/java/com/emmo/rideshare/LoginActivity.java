@@ -44,17 +44,6 @@ public class LoginActivity extends AppCompatActivity {
             String email = emailText.getText().toString();
             String password = passwordText.getText().toString();
             signInUser(email, password);
-            //boolean login = checkLogin(email, password);
-            /*
-            if(login){
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(LoginActivity.this, "Email oder Password ist falsch", Toast.LENGTH_SHORT).show();
-            }
-
-             */
         });
 
         register1.setOnClickListener(v -> {
