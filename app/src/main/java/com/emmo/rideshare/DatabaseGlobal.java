@@ -552,9 +552,6 @@ public class DatabaseGlobal {
         });
     }
 
-
-
-    //Sinnvoll NewRide statt Ride zu benutzen?
     public void updateRideInDatabase(String rideId, NewRide updatedRide) {
         DatabaseReference ridesRef = FirebaseDatabase.getInstance().getReference("ride").child(rideId);
 
