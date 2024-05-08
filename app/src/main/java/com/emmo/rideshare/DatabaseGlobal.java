@@ -220,32 +220,53 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("users");
         String userIdString = user.getId();
+        String userEmail = user.getEmail();
 
-        Map<String, Object> updateValues = new HashMap<>();
+        Query query = usersRef.orderByChild("email").equalTo(encodeEmail(userEmail));
+        System.out.println("ICH BIN HIER BBIIIIIIIIIIIIIIIIIIIIITTTTTTTTTTTTTTTTTCCCCCCCCCCCHHHHHHHHHHHH");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("ICH BIN HIER FUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCCCCCCCCCCCCKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String userId = snapshot.getKey();
+                        DatabaseReference userToUpdateRef = usersRef.child(userId);
+                        System.out.println("ICH BIN HIER AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
-        if (user.getFirstname() != null) {
-            updateValues.put("firstname", user.getFirstname());
-        }
-        if (user.getLastname() != null) {
-            updateValues.put("lastname", user.getLastname());
-        }
-        if (user.getStreet() != null) {
-            updateValues.put("street", user.getStreet());
-        }
-        if (user.getStreetnumber() != null) {
-            updateValues.put("streetnumber", user.getStreetnumber());
-        }
-        if (user.getCity() != null) {
-            updateValues.put("city", user.getCity());
-        }
-        if (user.getZip() != null) {
-            updateValues.put("zip", user.getZip());
-        }
+                        if (user.getFirstname() != null) {
+                            userToUpdateRef.child("firstname").setValue(user.getFirstname());
+                        }
+                        if (user.getLastname() != null) {
+                            userToUpdateRef.child("lastname").setValue(user.getLastname());
+                        }
+                        if (user.getStreet() != null) {
+                            userToUpdateRef.child("street").setValue(user.getStreet());
+                        }
+                        if (user.getStreetnumber() != null) {
+                            userToUpdateRef.child("streetnumber").setValue(user.getStreetnumber());
+                        }
+                        if (user.getCity() != null) {
+                            userToUpdateRef.child("city").setValue(user.getCity());
+                        }
+                        if (user.getZip() != null) {
+                            userToUpdateRef.child("zip").setValue(user.getZip());
+                        }
+                    }
+                    listener.onUserUpdateSuccess();
+                } else {
+                    System.out.println("Benutzer mit der E-Mail-Adresse nicht gefunden");
+                }
+            }
 
-        usersRef.child(userIdString).updateChildren(updateValues)
-                .addOnSuccessListener(aVoid -> listener.onUserUpdateSuccess())
-                .addOnFailureListener(e -> listener.onUserUpdateFailure());
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Fehlerbehandlung
+            }
+        });
     }
+
+
 
     public void deleteUserFromDatabase(String userId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

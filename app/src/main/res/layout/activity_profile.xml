@@ -62,6 +62,8 @@
                     android:hint="@string/vname"
                     android:textSize="16sp"
                     android:padding="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/profile_vname"/>
 
                 <TextView
@@ -70,6 +72,8 @@
                     android:hint="@string/nname"
                     android:textSize="16sp"
                     android:padding="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/profile_nname"/>
 
             </LinearLayout>
@@ -105,6 +109,8 @@
                     android:hint="@string/street"
                     android:textSize="16sp"
                     android:padding="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/profile_address_str"/>
 
                 <TextView
@@ -113,6 +119,8 @@
                     android:hint="@string/hnr"
                     android:textSize="16sp"
                     android:padding="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/profile_address_nr"/>
 
             </LinearLayout>
@@ -129,6 +137,8 @@
                     android:hint="@string/zipcode"
                     android:textSize="16sp"
                     android:padding="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/profile_address_plz"/>
 
                 <TextView
@@ -137,6 +147,8 @@
                     android:hint="@string/city"
                     android:textSize="16sp"
                     android:padding="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/profile_address_city"/>
 
             </LinearLayout>
