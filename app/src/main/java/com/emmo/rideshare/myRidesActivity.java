@@ -94,8 +94,14 @@ public class myRidesActivity extends AppCompatActivity {
         database.findRidesByUserId(emailString, new DatabaseGlobal.OnRidesFoundListener() {
             @Override
             public void onSuccessRides(List<Ride> rides) {
-                ridesList.addAll(rides);
+                updateRecyclerView(rides);
             }
         });
+    }
+
+    private void updateRecyclerView(List<Ride> newSearchResults) {
+        ridesList.clear();
+        ridesList.addAll(newSearchResults);
+        adapter.notifyDataSetChanged();
     }
 }

@@ -39,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         mAuth = FirebaseAuth.getInstance();
 
         vname = findViewById(R.id.profile_vname);

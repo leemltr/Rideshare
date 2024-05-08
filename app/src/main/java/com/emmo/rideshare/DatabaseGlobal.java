@@ -484,7 +484,7 @@ public class DatabaseGlobal {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("ride");
 
-        Query query = myRef.orderByChild("date_time").equalTo(date + "_" + time);
+        Query query = myRef.orderByChild("date_time").startAt(date + "_" + time);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -40,6 +40,8 @@ public class EditProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         vname = findViewById(R.id.profile_vname);
         nname = findViewById(R.id.profile_nname);
         street = findViewById(R.id.profile_address_str);
