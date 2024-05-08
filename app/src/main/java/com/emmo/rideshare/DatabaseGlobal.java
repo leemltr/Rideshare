@@ -223,16 +223,13 @@ public class DatabaseGlobal {
         String userEmail = user.getEmail();
 
         Query query = usersRef.orderByChild("email").equalTo(encodeEmail(userEmail));
-        System.out.println("ICH BIN HIER BBIIIIIIIIIIIIIIIIIIIIITTTTTTTTTTTTTTTTTCCCCCCCCCCCHHHHHHHHHHHH");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                System.out.println("ICH BIN HIER FUUUUUUUUUUUUUUUUUUUUUUCCCCCCCCCCCCCCCCCCCCCCCKKKKKKKKKKKKKKKKKKKKKKKKKKK");
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String userId = snapshot.getKey();
                         DatabaseReference userToUpdateRef = usersRef.child(userId);
-                        System.out.println("ICH BIN HIER AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
                         if (user.getFirstname() != null) {
                             userToUpdateRef.child("firstname").setValue(user.getFirstname());

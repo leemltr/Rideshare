@@ -26,7 +26,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText vname, nname, street, streetnr, city, zip;
     private String originalVname, originalNname, originalStreet, originalStreetNr, originalCity, originalZip;
-    private Button save;
+    private Button save, cancel;
     private FirebaseAuth mAuth;
     private String id;
 
@@ -49,6 +49,7 @@ public class EditProfileActivity extends AppCompatActivity {
         zip = findViewById(R.id.profile_address_plz);
         city = findViewById(R.id.profile_address_city);
         save = findViewById(R.id.update_btn_save);
+        cancel = findViewById(R.id.btnCancel);
 
         mAuth = FirebaseAuth.getInstance();
         loadUser();
@@ -60,11 +61,12 @@ public class EditProfileActivity extends AppCompatActivity {
         originalCity = city.getText().toString();
         originalZip = zip.getText().toString();
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateUser();
-            }
+        save.setOnClickListener(v -> updateUser());
+
+        cancel.setOnClickListener(v -> {
+            Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -113,14 +115,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void updateUser(){
-        System.out.println("ICH BIN HIER khaseföksojghpslkfgoihsajpäflkszjdhgvfpäsldgpvo");
         if ((originalVname == null || !originalVname.equals(vname.getText().toString())) ||
                 (originalNname == null || !originalNname.equals(nname.getText().toString())) ||
                 (originalStreet == null || !originalStreet.equals(street.getText().toString())) ||
                 (originalStreetNr == null || !originalStreetNr.equals(streetnr.getText().toString())) ||
                 (originalCity == null || !originalCity.equals(city.getText().toString())) ||
                 (originalZip == null || !originalZip.equals(zip.getText().toString()))) {
-            System.out.println("ICH BIN HIER HAHAHAHAHAHAHAHAHAHAHAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHH");
             User user = new User();
             user.setId(id);
             FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -152,7 +152,6 @@ public class EditProfileActivity extends AppCompatActivity {
             }
 
             DatabaseGlobal database = new DatabaseGlobal();
-            System.out.println("ICH BIN HIER BBIIIIIIIIIIIIIIIIIIIIITTTTTTTTTTTTTTTTTCCCCCCCCCCCHHHHHHHHHHHH22222222222222222222");
             database.updateUserInDatabase(user, new DatabaseGlobal.OnUserUpdateListener() {
                 @Override
                 public void onUserUpdateSuccess() {
