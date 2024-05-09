@@ -98,9 +98,9 @@ public class RegisterActivity extends AppCompatActivity {
             String passwort2 = password2.getText().toString();
             boolean match = passwort1.equals(passwort2);
 
-            if (!match) {
+            if (!match || passwort1.length() < 6) {
                 passwordTrue = false;
-                Toast.makeText(RegisterActivity.this, "Passwort muss gleich sein", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Passwort muss gleich sein und min. 6 Zeichen haben", Toast.LENGTH_SHORT).show();
             } else {
                 passwordTrue = true;
             }
@@ -157,18 +157,13 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void navigateToNextActivity() {
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     private void updateUI(){
         fname.setText("");
         lname.setText("");
         emailText.setText("");
         password1.setText("");
         password2.setText("");
+        Toast.makeText(this, "Diese E-Mail wird bereits verwendet oder ist keine korrekte E-Mail-Adresse", Toast.LENGTH_LONG).show();
     }
 
 }
